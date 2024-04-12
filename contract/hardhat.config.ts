@@ -3,6 +3,7 @@ import 'hardhat-contract-sizer'
 import '@nomicfoundation/hardhat-toolbox'
 import './scripts/tasks/deploy'
 import './scripts/tasks/newtask'
+import '@oasisprotocol/sapphire-hardhat'
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -67,6 +68,11 @@ const config: HardhatUserConfig = {
       url: 'https://rpc.chiadochain.net',
       gasPrice: 1000000000,
       accounts,
+    },
+    sapphiretestnet: {
+      url: 'https://testnet.sapphire.oasis.io',
+      accounts,
+      chainId: 23295,
     },
     gnosis: {
       url: 'https://rpc.gnosischain.com',

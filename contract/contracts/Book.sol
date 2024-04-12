@@ -37,7 +37,10 @@ contract Book is ERC721, AccessControl {
     /**
      * @notice user address to Book struct
      */
-    mapping(address => BookDetails[]) private ownerBooks;
+    mapping(address => uint256[]) private ownerBooks;
+
+    // get the book by id
+    mapping(uint256 => BookDetails) private books;
 
     /**
      * @notice Book Id counter
@@ -57,8 +60,27 @@ contract Book is ERC721, AccessControl {
 
     // =========================== View functions ==============================
 
-    function getBooks(address _owner) public view returns (BookDetails[] memory) {
-        return ownerBooks[_owner];
+    function getBooksByOwner(address _owner) public view returns (BookDetails[] memory) {
+        BookDetails[] memory result = new BookDetails[](ownerBooks[_owner].length);
+        for (uint256 i = 0; i < ownerBooks[_owner].length; i++) {
+            result[i] = books[ownerBooks[_owner][i]];
+        }
+        return result;
+    }
+
+    // get detail books by id
+    function getBookById(uint256 _id) public view returns (BookDetails memory) {
+        require(_id < nextBookId.current(), "Book not found");
+        return books[_id];
+    }
+
+    // get all books
+    function getAllBooks() public view returns (BookDetails[] memory) {
+        BookDetails[] memory result = new BookDetails[](nextBookId.current());
+        for (uint256 i = 0; i < nextBookId.current(); i++) {
+            result[i] = books[i];
+        }
+        return result;
     }
 
     // =========================== User functions ==============================
@@ -75,7 +97,8 @@ contract Book is ERC721, AccessControl {
             status: _status
         });
 
-        ownerBooks[msg.sender].push(newBook);
+        ownerBooks[msg.sender].push(bookId);
+        books[bookId] = newBook;
 
         nextBookId.increment();
 
@@ -84,13 +107,10 @@ contract Book is ERC721, AccessControl {
 
     // Change the Book Status
     function changeBookStatus(BookStatus _status, uint256 _idBook) public {
-        // loop through the books of the owner
-        for (uint256 i = 0; i < ownerBooks[msg.sender].length; i++) {
-            if (ownerBooks[msg.sender][i].id == _idBook) {
-                ownerBooks[msg.sender][i].status = _status;
-                break;
-            }
-        }
+        require(_idBook < nextBookId.current(), "Book not found");
+        require(books[_idBook].owner == msg.sender, "Not the owner of the book");
+
+        books[_idBook].status = _status;
     }
 
     // =========================== Overrides ==============================
