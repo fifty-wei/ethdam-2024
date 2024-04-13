@@ -34,15 +34,23 @@ export function getEthersProvider(
   return clientToProvider(client);
 }
 
+// function initializeSigner(eth: ReturnType<typeof useEthereumStore>) {
+//   let signer = eth.unwrappedSigner;
+//   if (!signer && eth.unwrappedProvider) {
+//     signer = new VoidSigner(eth.address!, eth.unwrappedProvider);
+//   }
+//   return signer;
+// }
+
 export function useSapphireContract<
     config extends Config = ResolvedRegister['config'],
     context = unknown,
 >() {
   // const client = useClient();
   //
-  // if( !client ) {
-  //   return;
-  // }
+  if( !window.ethereum ) {
+    return;
+  }
 
   // const provider = clientToProvider(client);
   // const { provider, signer } = useMemo(() => {
@@ -55,6 +63,13 @@ export function useSapphireContract<
   const signer = wrap(provider);
   console.log({provider});
   console.log({signer});
+
+
+  // const signer = initializeSigner(eth);
+  // if (!signer) {
+  //   console.error('[useMessageBox] Signer not initialized');
+  //   return null;
+  // }
 
 
   // console.log({client})

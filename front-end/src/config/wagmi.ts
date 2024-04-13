@@ -1,4 +1,4 @@
-import { http, createConfig } from "wagmi";
+import {http, createConfig, custom} from "wagmi";
 import {Chain, mainnet, sapphireTestnet, sepolia} from "wagmi/chains";
 // import { publicProvider } from 'wagmi/providers/public';
 // import { InjectedConnector } from 'wagmi/connectors/injected'
@@ -13,16 +13,21 @@ import feedbackContract from "@/abi/Feedback.json";
 import * as sapphire from '@oasisprotocol/sapphire-paratime';
 import {createConnector} from "@wagmi/core";
 import {metaMask, walletConnect} from "@wagmi/connectors";
+import {EIP1193Provider} from "viem";
+
+const provider = sapphire.wrap(window.ethereum! as EIP1193Provider);
 
 
 export const wagmiConfig = createConfig({
   chains: [mainnet, sepolia, sapphireTestnet],
   connectors: [],
-  transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
-    [sapphireTestnet.id]: http(),
-  },
+  transport: custom(provider),
+  //
+  // transports: {
+  //   [mainnet.id]: http(),
+  //   [sepolia.id]: http(),
+  //   [sapphireTestnet.id]: http(),
+  // },
 });
 
 // const sapphireProvider = sapphire.wrap(publicProvider());

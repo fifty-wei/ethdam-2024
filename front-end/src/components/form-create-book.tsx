@@ -66,11 +66,11 @@ export function FormCreateBook({className = ""} : Props) {
         fetchAllBooks();
     }, []);
 
-    // const { data: hash, isPending, writeContract } = useContractWrite();
-    // const { isLoading: isConfirming, isSuccess: isConfirmed } =
-    //     useWaitForTransactionReceipt({
-    //         hash,
-    //     })
+    const { data: hash, isPending, writeContract } = useContractWrite();
+    const { isLoading: isConfirming, isSuccess: isConfirmed } =
+        useWaitForTransactionReceipt({
+            hash,
+        })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -85,28 +85,30 @@ export function FormCreateBook({className = ""} : Props) {
         e.preventDefault();
         const formData = new FormData(e.target);
 
+        // console.log(bookRepository.runner);
+
         // console.log({wagmiBookContract});
 
-        // writeContract({
-        //     ...wagmiBookContract,
-        //     functionName: 'createBook',
-        //     args: [
-        //         formData.get('title'),
-        //         formData.get('description'),
-        //         formData.get('status')
-        //     ],
-        // })
-
-        try{
-            const tx = await bookRepository.createBook(
+        writeContract({
+            ...wagmiBookContract,
+            functionName: 'createBook',
+            args: [
                 formData.get('title'),
                 formData.get('description'),
                 formData.get('status')
-            );
-            console.log({tx});
-        } catch (e) {
-            console.error(e);
-        }
+            ],
+        })
+
+        // try{
+        //     const tx = await bookRepository.createBook(
+        //         formData.get('title'),
+        //         formData.get('description'),
+        //         formData.get('status')
+        //     );
+        //     console.log({tx});
+        // } catch (e) {
+        //     console.error(e);
+        // }
         // const tx = await bookRepository.createBook(
         //     formData.get('title'),
         //     formData.get('description'),
@@ -125,9 +127,9 @@ export function FormCreateBook({className = ""} : Props) {
 
     const classes = cn(className || "", "space-y-8");
 
-    const isPending = false;
-    const isConfirming = false;
-    const isConfirmed = false;
+    // const isPending = false;
+    // const isConfirming = false;
+    // const isConfirmed = false;
 
     if( isConfirmed ){
         redirect('/book/1')
