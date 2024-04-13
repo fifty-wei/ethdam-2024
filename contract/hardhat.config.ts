@@ -132,7 +132,7 @@ const config: HardhatUserConfig = {
     alphaSort: true,
     disambiguatePaths: false,
     runOnCompile: true,
-    only: ['Book', 'Chapter'],
+    only: ['Book', 'Chapter', 'Feedback'],
   },
 }
 export default config

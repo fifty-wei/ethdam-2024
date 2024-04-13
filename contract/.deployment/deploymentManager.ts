@@ -3,6 +3,7 @@ import * as fs from 'fs'
 export enum DeploymentProperty {
   Book = 'Book',
   Chapter = 'Chapter',
+  Feedback = 'Feedback',
 }
 
 const loadJSON = (network: string) => {

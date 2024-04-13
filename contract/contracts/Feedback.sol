@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import {Base64} from "@openzeppelin/contracts/utils/Base64.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {Counters} from "@openzeppelin/contracts/utils/Counters.sol";
+import {IChapter} from "./interfaces/IChapter.sol";
 
 /**
  * @title Feedback Contract
@@ -14,10 +15,11 @@ import {Counters} from "@openzeppelin/contracts/utils/Counters.sol";
 
     struct FeedbackDetails {
         uint256 id;
-        uint256 ownerId;
-        uint256 bookId;
-        string description;
+        address owner;
+        uint256 chapterId;
+        string content;
         uint256 rating;
+        FeedbackStatus status;
     }
 
     enum FeedbackStatus {
@@ -31,51 +33,68 @@ import {Counters} from "@openzeppelin/contracts/utils/Counters.sol";
      */
     Counters.Counter nextFeedbackId;
 
-    //mapping of all feedbacks by chapter id
-    mapping(uint256 => FeedbackDetails[]) public feedbacks;
+    // get the feedback by id
+    mapping(uint256 => FeedbackDetails) private feedbacks;
 
-    // get feedback by id
-    mapping(uint256 => FeedbackDetails) public feedbacksByID;
+    // mapping of all feedbacks by chapter id
+    mapping(uint256 => uint256[]) public chapterFeedbacks;
 
-    /**
-     * @notice Mapping to record whether the chapter has been reviewed by a user
-     */
-    mapping(uint256 => bool) public hasChapterBeenReviewed;
+    IChapter public chapterIdContract;
 
     // =========================== Constructor ==============================
 
-    constructor() ERC721("FeedbackID", "FBI") {
-        nextFeedbackId.increment(); // we start the BookID at 1
+    constructor(address _chapterContractAddress) ERC721("FeedbackID", "FBI") {
+        chapterIdContract = IChapter(_chapterContractAddress);
+        nextFeedbackId.increment(); // we start the feedbackId at 1
     }
 
     // =========================== View functions ==============================
 
     // Get all feedbacks for a chapter
     function getAllFeedbacks(uint256 _chapterId) public view returns (FeedbackDetails[] memory) {
-        FeedbackDetails[] memory feedbacksList = new FeedbackDetails[](nextFeedbackId.current());
-        for (uint256 i = 0; i < nextFeedbackId.current(); i++) {
-            feedbacksList[i] = feedbacks[i];
+        FeedbackDetails[] memory result = new FeedbackDetails[](chapterFeedbacks[_chapterId].length);
+        for (uint256 i = 0; i < chapterFeedbacks[_chapterId].length; i++) {
+            result[i] = feedbacks[chapterFeedbacks[_chapterId][i]];
         }
-        return feedbacksList;
+        return result;
     }
 
     // =========================== User functions ==============================
 
     // Create a new feedback
-    function createFeedback(uint256 _chapterId, string memory _description, uint256 _rating) public {
+    function createFeedback(uint256 _chapterId, string memory _content, uint256 _rating) public {
         uint256 feedbackId = nextFeedbackId.current();
 
         FeedbackDetails memory newFeedback = FeedbackDetails({
             id: feedbackId,
-            ownerId: msg.sender,
-            bookId: _chapterId,
-            description: _description,
-            rating: _rating
+            owner: msg.sender,
+            chapterId: _chapterId,
+            content: _content,
+            rating: _rating,
+            status: FeedbackStatus.Waiting
         });
 
         feedbacks[feedbackId] = newFeedback;
+        chapterFeedbacks[_chapterId].push(feedbackId);
 
         nextFeedbackId.increment();
+    }
+
+    // Accept a feedback
+    function acceptFeedback(uint256 _feedbackId) public {
+        changeFeedbackStatus(_feedbackId, FeedbackStatus.Accepted);
+    }
+
+    // Accept a feedback
+    function rejectFeedback(uint256 _feedbackId) public {
+        changeFeedbackStatus(_feedbackId, FeedbackStatus.Rejected);
+    }
+
+    function changeFeedbackStatus(uint256 _feedbackId, FeedbackStatus _status) public {
+        FeedbackDetails storage feedback = feedbacks[_feedbackId];
+        require(chapterIdContract.ownerOf(feedback.chapterId) == msg.sender, "Not the owner of the chapter");
+
+        feedback.status = _status;
     }
 
     // =========================== Overrides ===================================

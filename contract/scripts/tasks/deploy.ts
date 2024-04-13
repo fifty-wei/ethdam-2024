@@ -43,4 +43,20 @@ task('deploy', 'Deploy all contracts')
 
     console.log('Deployed Chapter at', chapter.address)
     setDeploymentProperty(network.name, DeploymentProperty.Chapter, chapter.address)
+
+    // Deploy Feedback
+    const Feedback = await ethers.getContractFactory('Feedback')
+    const feedbackArg: [string] = [chapter.address]
+    const feedback = await Feedback.deploy(...feedbackArg)
+
+    await feedback.deployed()
+
+    if (verify) {
+      await verifyAddress(feedback.address, feedbackArg)
+    }
+
+    console.log('Deployed Feedback at', feedback.address)
+    setDeploymentProperty(network.name, DeploymentProperty.Feedback, feedback.address)
+
+    console.log('All contracts deployed')
   })
