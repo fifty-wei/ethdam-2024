@@ -69,6 +69,7 @@ export default function Home() {
   console.log({ chapters });
 
   if (bookData.status !== "success") {
+    console.log(bookData.error);
     return (
       <div className="min-h-screen min-w-screen flex justify-center items-center max-w-2xl mx-auto">
         {bookData.error.toString()}

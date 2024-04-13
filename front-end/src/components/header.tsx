@@ -20,9 +20,9 @@ export function Header() {
       <div className="container relative lg:max-w-[1305px] lg:px-10">
         <div className="flex items-center justify-between">
           <div className="block py-4 lg:py-0">
-            <a href="/" className="block max-w-[145px] sm:max-w-[180px]">
+            <Link href="/" className="block max-w-[145px] sm:max-w-[180px]">
               <Logo className="text-yellow-400" width={40} height={40} />
-            </a>
+            </Link>
           </div>
           <button
             onClick={() => setIsOpen(true)}

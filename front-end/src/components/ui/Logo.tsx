@@ -9,7 +9,6 @@ interface Props {
 export default function Logo({ className, width, height }: Props) {
   return (
     <>
-      <a href="/">
         <Image
           src="/bhook.png"
           alt="Logo"
@@ -17,7 +16,6 @@ export default function Logo({ className, width, height }: Props) {
           height={height}
           className={className}
         />
-      </a>
     </>
   );
 }

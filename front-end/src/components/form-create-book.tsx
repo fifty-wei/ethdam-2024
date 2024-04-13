@@ -22,6 +22,7 @@ import {wagmiBookContract, wagmiFeedbackContract} from "@/config/wagmi";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {Label} from "@/components/ui/label";
 import {useToast} from "@/components/ui/use-toast";
+import {redirect} from "next/navigation";
 
 enum BookStatus {
     Draft,
@@ -73,6 +74,8 @@ export function FormCreateBook({className = ""} : Props) {
         e.preventDefault();
         const formData = new FormData(e.target);
 
+        console.log({wagmiBookContract});
+
         writeContract({
             ...wagmiBookContract,
             functionName: 'createBook',
@@ -89,12 +92,12 @@ export function FormCreateBook({className = ""} : Props) {
     console.log({isPending});
     console.log({isConfirming});
     console.log({isConfirmed});
-
+    console.log({hash});
 
     const classes = cn(className || "", "space-y-8");
 
     if( isConfirmed ){
-        redirect('/book/', type)
+        redirect('/book/1')
         return null;
     }
 
