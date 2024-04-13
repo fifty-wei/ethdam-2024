@@ -80,6 +80,25 @@ contract Chapter is ERC721, AccessControl {
         _mint(msg.sender, chapterId);
     }
 
+    // function to edit the chapter
+    function editChapter(
+        uint256 _chapterId,
+        string memory _name,
+        string memory _publicContent,
+        string memory _privateContent
+    ) public {
+        require(ownerOf(_chapterId) == msg.sender, "Chapter: Not the owner");
+
+        ChapterDetails[] storage chapters = bookChapters[_chapterId];
+        for (uint256 i = 0; i < chapters.length; i++) {
+            if (chapters[i].id == _chapterId) {
+                chapters[i].name = _name;
+                chapters[i].publicContent = _publicContent;
+                chapters[i].privateContent = _privateContent;
+            }
+        }
+    }
+
     // =========================== Overrides ==============================
 
     /**
