@@ -1,12 +1,13 @@
 import {UseWriteContractReturnType} from "wagmi/src/hooks/useWriteContract";
 import {Config, ResolvedRegister} from "@wagmi/core";
-import { useAccount, useClient } from "wagmi";
+import {custom, useAccount, useClient, useWalletClient} from "wagmi";
 import { type Config, getClient } from '@wagmi/core'
 import {ethers, FallbackProvider, JsonRpcProvider} from 'ethers'
-import type { Client, Chain, Transport } from 'viem'
-import {wrap} from "@oasisprotocol/sapphire-paratime";
+import type {Client, Chain, Transport, EIP1193Provider} from 'viem'
+import {wrap, wrapEthersSigner} from "@oasisprotocol/sapphire-paratime";
 import {wagmiBookContract} from "@/config/wagmi";
 import {useMemo} from "react";
+import {sapphireTestnet} from "wagmi/chains";
 
 export function clientToProvider(client: Client<Transport, Chain>) {
   const { chain, transport } = client
@@ -42,7 +43,7 @@ export function getEthersProvider(
 //   return signer;
 // }
 
-export function useSapphireContract<
+export function oldUseSapphireContract<
     config extends Config = ResolvedRegister['config'],
     context = unknown,
 >() {
@@ -99,5 +100,19 @@ export function useSapphireContract<
   return {
     bookRepository: bookRepository as Return['contract'],
     // writeContract: writeContract as Return['writeContract'],
+  }
+}
+
+export function useSapphireContract(){
+  const provider = wrap(window.ethereum! as EIP1193Provider);
+  const walletClient = useWalletClient({
+      chain: sapphireTestnet,
+      transport: custom(wrap(window.ethereum! as EIP1193Provider)),
+  })
+
+  console.log(walletClient.data);
+
+  return {
+    ...walletClient.data,
   }
 }

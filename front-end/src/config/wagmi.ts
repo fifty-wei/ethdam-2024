@@ -19,8 +19,7 @@ const provider = sapphire.wrap(window.ethereum! as EIP1193Provider);
 
 
 export const wagmiConfig = createConfig({
-  chains: [mainnet, sepolia, sapphireTestnet],
-  connectors: [],
+  chains: [sapphireTestnet],
   transport: custom(provider),
   //
   // transports: {

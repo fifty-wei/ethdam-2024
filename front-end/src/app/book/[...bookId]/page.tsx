@@ -1,21 +1,45 @@
 "use client";
 
 import Image from "next/image";
-import { useAccount, useContractReads } from "wagmi";
+import {custom, useAccount, useContractReads} from "wagmi";
 import { useParams } from "next/navigation";
 import { wagmiBookContract, wagmiChapterContract } from "@/config/wagmi";
-import { Button } from "@/components/ui/button";
 import { MessageCircleMore, Plus, RefreshCw } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import ModalAddChapter from "@/components/modal-add-chapter";
-import { ApplyToGiveFeedback } from "@/components/apply-to-give-feedback";
 import { ChapterItem } from "@/components/chapter-item";
+import {sapphireTestnet} from "wagmi/chains";
+import {wrap} from "@oasisprotocol/sapphire-paratime";
+import {EIP1193Provider} from "viem";
 
 export default function Home() {
   const { bookId } = useParams<{ bookId: string }>();
   const { address } = useAccount();
+  // const { getContractReads } = useSapphireContract();
+
+  // useEffect(() => {
+  //   async function fetchBook() {
+  //     const toto = await getContractReads({
+  //       contracts: [
+  //         {
+  //           ...wagmiChapterContract,
+  //           functionName: "getChapters",
+  //           args: [BigInt(bookId)],
+  //         },
+  //         {
+  //           ...wagmiBookContract,
+  //           functionName: "getBookById",
+  //           args: [BigInt(bookId)],
+  //         },
+  //       ],
+  //     })
+  //     console.log({toto});
+  //   }
+  //   fetchBook();
+  // }, [bookId]);
 
   const { data, isError, isLoading } = useContractReads({
+    chain: sapphireTestnet,
+    transport: custom(wrap(window.ethereum! as EIP1193Provider)),
     contracts: [
       {
         ...wagmiChapterContract,
@@ -45,6 +69,8 @@ export default function Home() {
   }
 
   if (isError) {
+    console.log(isError);
+    console.log(data);
     return (
       <div className="min-h-screen min-w-screen">Error: {isError.message}</div>
     );

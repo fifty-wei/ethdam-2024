@@ -16,7 +16,15 @@ import {
 import {Input} from "@/components/ui/input";
 import {Plus, RefreshCw} from "lucide-react";
 import {cn} from "@/lib/utils";
-import {useContractWrite, useWaitForTransactionReceipt, useWalletClient, useConfig, usePublicClient, useAccount} from "wagmi";
+import {
+    useContractWrite,
+    useWaitForTransactionReceipt,
+    useWalletClient,
+    useConfig,
+    usePublicClient,
+    useAccount,
+    custom
+} from "wagmi";
 import {Textarea} from "@/components/ui/textarea";
 import {wagmiBookContract, wagmiFeedbackContract} from "@/config/wagmi";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
@@ -25,6 +33,9 @@ import {useToast} from "@/components/ui/use-toast";
 import {redirect} from "next/navigation";
 import {useSapphireContract} from "@/hooks/useSapphireContractWrite";
 import {useEffect} from "react";
+import {wrap, wrapEthersSigner} from "@oasisprotocol/sapphire-paratime";
+import {sapphireTestnet} from "wagmi/chains";
+import {EIP1193Provider} from "viem";
 
 enum BookStatus {
     Draft,
@@ -56,17 +67,19 @@ export function FormCreateBook({className = ""} : Props) {
     // })
 
     const { toast } = useToast();
-    const { bookRepository } = useSapphireContract();
+    const { signer } = useAccount();
+    // const { bookRepository } = useSapphireContract();
 
-    useEffect(() => {
-        async function fetchAllBooks() {
-            const books = await bookRepository.getAllBooks();
-            console.log({books});
-        }
-        fetchAllBooks();
-    }, []);
+    // useEffect(() => {
+    //     async function fetchAllBooks() {
+    //         const books = await bookRepository.getAllBooks();
+    //         console.log({books});
+    //     }
+    //     fetchAllBooks();
+    // }, []);
 
-    const { data: hash, isPending, writeContract } = useContractWrite();
+    // const { data: hash, isPending, writeContract } = useContractWrite();
+    const { data: hash, isPending, writeContract } = useSapphireContract();
     const { isLoading: isConfirming, isSuccess: isConfirmed } =
         useWaitForTransactionReceipt({
             hash,
@@ -88,6 +101,8 @@ export function FormCreateBook({className = ""} : Props) {
         // console.log(bookRepository.runner);
 
         // console.log({wagmiBookContract});
+
+        // const sapphireSigner = wrapEthersSigner(signer);
 
         writeContract({
             ...wagmiBookContract,
