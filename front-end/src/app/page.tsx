@@ -236,6 +236,17 @@ export function Example() {
                   <figure className="relative aspect-[2/3]">
                     <Image
                       className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
+                      src="https://images.unsplash.com/photo-1592496431122-2349e0fbc666?q=80&w=4212&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      alt=""
+                      width={512}
+                      height={1024}
+                    />
+                  </figure>
+                </Link>
+                <Link href="/book/1">
+                  <figure className="mt-32 relative aspect-[2/3]">
+                    <Image
+                      className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
                       src="https://images.unsplash.com/photo-1621827979802-6d778e161b28?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                       alt=""
                       width={512}
@@ -254,7 +265,7 @@ export function Example() {
                 Create with ease
               </h2>
               <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                Your community your power
+                Your community, Your power
               </p>
               <p className="mt-6 text-lg leading-8 text-gray-300">
                 Unique features make #Bhook the ideal platform for creators of
