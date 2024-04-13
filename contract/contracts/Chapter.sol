@@ -41,6 +41,10 @@ contract Chapter is IChapter {
         feedback_manager = new Feedback(address(this));
     }
 
+    function getFeedbackManager() external view returns (address) {
+        return address(feedback_manager);
+    }
+
     // =========================== View functions ==============================
 
     /**
