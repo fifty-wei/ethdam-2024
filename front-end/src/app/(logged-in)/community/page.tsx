@@ -41,9 +41,9 @@ export default function Community() {
 
         event.preventDefault();
         const formData = new FormData(event.target);
-    
-        let title = formData.title;
-        let description = formData.description;
+
+        let title = formData.get("title");
+        let description = formData.get("description");
 
         console.log(title)
         console.log(description)
@@ -66,14 +66,18 @@ export default function Community() {
         const group = await apiSdk.createGroup(groupCreateDetails, apiKey)
 
         console.log(group);
+        console.log(group["id"]);
+
+        let groupId = group["id"];
 
         // Create an invite
 
         // const groupId = "10402173435763029700781503965100"
         // const apiKey = "70f07d0d-6aa2-4fe1-b4b9-06c271a641dc"
 
-        // const invite = await apiSdk.createInvite(groupId, apiKey)
-
+        const invite = await apiSdk.createInvite(groupId, apiKey)
+        console.log("Create invite")
+        console.log(invite)
 
     }
 
