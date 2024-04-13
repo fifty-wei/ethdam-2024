@@ -8,12 +8,16 @@ interface Props {
 
 export default function Logo({ className, width, height }: Props) {
   return (
-    <Image
-      src="/bhook.png"
-      alt="Logo"
-      width={width}
-      height={height}
-      className={className}
-    />
+    <>
+      <a href="/">
+        <Image
+          src="/bhook.png"
+          alt="Logo"
+          width={width}
+          height={height}
+          className={className}
+        />
+      </a>
+    </>
   );
 }
