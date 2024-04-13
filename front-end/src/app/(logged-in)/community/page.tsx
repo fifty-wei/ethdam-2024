@@ -175,14 +175,31 @@ export default function Community() {
                         <div
                             className="mx-auto flex flex-col gap-8 items-center text-center max-w-6xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
 
-                            <h2>New group created: {title}</h2>
-                            <div>
-                                {emails.map((item, index) => (
-                                    <div key={index}>
-                                        <p>{item} : <Link href={`/community/join/${invitationLinks[index]}`}>{invitationLinks[index]}</Link></p>
-                                    </div>
-                                ))}
+                            <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+                                New group created: {title}
+                            </h1>
+
+                            <div className="relative overflow-x-auto shadow-md sm:rounded-lg container lg">
+                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" className="px-6 py-3">Email</th>
+                                            <th scope="col" className="px-6 py-3">Invite Code</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {emails.map((item, index) => (
+                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
+                                                <td className="px-6 py-4">{item}</td>
+                                                <td className="px-6 py-4 text-gray-900">
+                                                    <Link href={`/community/join/${invitationLinks[index]}`}>{invitationLinks[index]}</Link>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
+
                         </div>
                     </div>
                 </div>
