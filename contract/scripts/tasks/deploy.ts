@@ -17,36 +17,36 @@ task('deploy', 'Deploy all contracts')
     console.log('Balance: ', ethers.utils.formatEther(balance))
 
     // Deploy Book
-    // const Book = await ethers.getContractFactory('Book')
-    // const bookArg: [] = []
-    // const book = await Book.deploy(...bookArg)
+    const Book = await ethers.getContractFactory('Book')
+    const bookArg: [] = []
+    const book = await Book.deploy(...bookArg)
 
-    // await book.deployed()
+    await book.deployed()
 
-    // if (verify) {
-    //   await verifyAddress(book.address, bookArg)
-    // }
+    if (verify) {
+      await verifyAddress(book.address, bookArg)
+    }
 
-    // console.log('Deployed Book at', book.address)
-    // setDeploymentProperty(network.name, DeploymentProperty.Book, book.address)
+    console.log('Deployed Book at', book.address)
+    setDeploymentProperty(network.name, DeploymentProperty.Book, book.address)
 
     // Deploy Chapter
-    // const Chapter = await ethers.getContractFactory('Chapter')
-    // const chapterArg: [] = []
-    // const chapter = await Chapter.deploy(...chapterArg)
+    const Chapter = await ethers.getContractFactory('Chapter')
+    const chapterArg: [] = []
+    const chapter = await Chapter.deploy(...chapterArg)
 
-    // await chapter.deployed()
+    await chapter.deployed()
 
-    // if (verify) {
-    //   await verifyAddress(chapter.address, chapterArg)
-    // }
+    if (verify) {
+      await verifyAddress(chapter.address, chapterArg)
+    }
 
-    // console.log('Deployed Chapter at', chapter.address)
-    // setDeploymentProperty(network.name, DeploymentProperty.Chapter, chapter.address)
+    console.log('Deployed Chapter at', chapter.address)
+    setDeploymentProperty(network.name, DeploymentProperty.Chapter, chapter.address)
 
     // Deploy Feedback
     const Feedback = await ethers.getContractFactory('Feedback')
-    const feedbackArg: [string] = ['0x777068Ed13a718D1E7E6D6a9E0481b0651c3F78f']
+    const feedbackArg: [string] = [chapter.address]
     const feedback = await Feedback.deploy(...feedbackArg)
 
     await feedback.deployed()

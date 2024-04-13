@@ -14,16 +14,16 @@ export const wagmiConfig = createConfig({
 });
 
 export const wagmiChapterContract = {
-  address: "0x777068Ed13a718D1E7E6D6a9E0481b0651c3F78f",
+  address: "0x588F665A74d5B9A42ca952726a58812B22063D04",
   abi: chapterContract.abi,
 };
 
 export const wagmiBookContract = {
-  address: "0xfd2D32AD31038423015B9d830Ad735c43AdBe4Dc",
+  address: "0xB3C3973Fc4ebB7765aaD4217129c86E7eD54a1ee",
   abi: bookContract.abi,
 };
 
 export const wagmiFeedbackContract = {
-  address: "0x2964fa34cA3434180655c2C1d83a3bb07caf5f25",
+  address: "0xC8B7A0B74a0AC5D733e450943E903fc62bbde59B",
   abi: feedbackContract.abi,
 };
