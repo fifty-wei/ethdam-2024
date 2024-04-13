@@ -103,14 +103,14 @@ export function oldUseSapphireContract<
   }
 }
 
-export function useSapphireContract(){
-  const provider = wrap(window.ethereum! as EIP1193Provider);
+export function useSapphire(){
   const walletClient = useWalletClient({
       chain: sapphireTestnet,
       transport: custom(wrap(window.ethereum! as EIP1193Provider)),
   })
 
-  console.log(walletClient.data);
+  console.log(walletClient)
+  console.log(walletClient.data)
 
   return {
     ...walletClient.data,

@@ -10,11 +10,13 @@ import { ChapterItem } from "@/components/chapter-item";
 import {sapphireTestnet} from "wagmi/chains";
 import {wrap} from "@oasisprotocol/sapphire-paratime";
 import {EIP1193Provider} from "viem";
+import {useSapphire} from "@/hooks/useSapphireContractWrite";
+import {useEffect} from "react";
 
 export default function Home() {
   const { bookId } = useParams<{ bookId: string }>();
   const { address } = useAccount();
-  // const { getContractReads } = useSapphireContract();
+  // const { getContractReads } = useSapphire();
 
   // useEffect(() => {
   //   async function fetchBook() {
@@ -37,9 +39,7 @@ export default function Home() {
   //   fetchBook();
   // }, [bookId]);
 
-  const { data, isError, isLoading } = useContractReads({
-    chain: sapphireTestnet,
-    transport: custom(wrap(window.ethereum! as EIP1193Provider)),
+  const { data, error, isError, isLoading } = useContractReads({
     contracts: [
       {
         ...wagmiChapterContract,
@@ -53,6 +53,8 @@ export default function Home() {
       },
     ],
   });
+
+  console.log({error});
 
   if (isLoading) {
     return (

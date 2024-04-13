@@ -31,7 +31,7 @@ import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {Label} from "@/components/ui/label";
 import {useToast} from "@/components/ui/use-toast";
 import {redirect} from "next/navigation";
-import {useSapphireContract} from "@/hooks/useSapphireContractWrite";
+import {useSapphire} from "@/hooks/useSapphireContractWrite";
 import {useEffect} from "react";
 import {wrap, wrapEthersSigner} from "@oasisprotocol/sapphire-paratime";
 import {sapphireTestnet} from "wagmi/chains";
@@ -78,8 +78,11 @@ export function FormCreateBook({className = ""} : Props) {
     //     fetchAllBooks();
     // }, []);
 
-    // const { data: hash, isPending, writeContract } = useContractWrite();
-    const { data: hash, isPending, writeContract } = useSapphireContract();
+    const { data: hash, isPending, writeContract } = useContractWrite({
+        chain: sapphireTestnet,
+        transport: custom(wrap(window.ethereum! as EIP1193Provider)),
+    });
+    // const { data: hash, isPending, writeContract } = useSapphire();
     const { isLoading: isConfirming, isSuccess: isConfirmed } =
         useWaitForTransactionReceipt({
             hash,

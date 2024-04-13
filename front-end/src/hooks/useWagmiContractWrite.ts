@@ -7,7 +7,7 @@ import type { Client, Chain, Transport } from 'viem'
 import {wrap} from "@oasisprotocol/sapphire-paratime";
 import {wagmiBookContract} from "@/config/wagmi";
 
-export function useSapphireContract<
+export function useWagmiRepository<
     config extends Config = ResolvedRegister['config'],
     context = unknown,
 >() {
