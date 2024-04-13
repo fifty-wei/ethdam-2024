@@ -1,32 +1,14 @@
-import {Fragment, useEffect, useState} from 'react'
-import {
-    FaceFrownIcon,
-    FaceSmileIcon,
-    FireIcon,
-    HandThumbUpIcon,
-    HeartIcon,
-    PaperClipIcon,
-    XMarkIcon,
-} from '@heroicons/react/20/solid'
-import { Listbox, Transition } from '@headlessui/react'
+import {useEffect} from 'react'
 import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
 import {Button} from "@/components/ui/button";
 import {Account} from "@/components/account";
-import {CircleUser, RefreshCw, UserCircle} from "lucide-react";
+import {CircleUser, RefreshCw} from "lucide-react";
 import {StarRating} from "@/components/star-rating";
-import {useContractRead, useContractWrite, useWaitForTransactionReceipt} from "wagmi";
+import {useContractWrite, useWaitForTransactionReceipt} from "wagmi";
 import {wagmiFeedbackContract} from "@/config/wagmi";
 import {useToast} from "@/components/ui/use-toast";
-
-const moods = [
-    { name: 'Excited', value: 'excited', icon: FireIcon, iconColor: 'text-white', bgColor: 'bg-red-500' },
-    { name: 'Loved', value: 'loved', icon: HeartIcon, iconColor: 'text-white', bgColor: 'bg-pink-400' },
-    { name: 'Happy', value: 'happy', icon: FaceSmileIcon, iconColor: 'text-white', bgColor: 'bg-green-400' },
-    { name: 'Sad', value: 'sad', icon: FaceFrownIcon, iconColor: 'text-white', bgColor: 'bg-yellow-400' },
-    { name: 'Thumbsy', value: 'thumbsy', icon: HandThumbUpIcon, iconColor: 'text-white', bgColor: 'bg-blue-500' },
-    { name: 'I feel nothing', value: null, icon: XMarkIcon, iconColor: 'text-gray-400', bgColor: 'bg-transparent' },
-]
+import {Chapter} from "@/types/chapter";
 
 interface Props {
     chapter: Chapter;
@@ -64,9 +46,6 @@ export default function FormGiveFeedback({chapter}: Props) {
                 formData.get('rating')
             ],
         })
-
-        console.log({res});
-
     }
 
     if( isConfirmed ){

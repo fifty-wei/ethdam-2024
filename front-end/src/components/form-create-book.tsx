@@ -16,8 +16,12 @@ import {
 import {Input} from "@/components/ui/input";
 import {Plus, RefreshCw} from "lucide-react";
 import {cn} from "@/lib/utils";
-import {useWalletClient} from "wagmi";
+import {useContractWrite, useWaitForTransactionReceipt, useWalletClient} from "wagmi";
 import {Textarea} from "@/components/ui/textarea";
+import {wagmiBookContract, wagmiFeedbackContract} from "@/config/wagmi";
+import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
+import {Label} from "@/components/ui/label";
+import {useToast} from "@/components/ui/use-toast";
 
 enum BookStatus {
     Draft,
@@ -48,7 +52,14 @@ export function FormCreateBook({className = ""} : Props) {
     //     transport: custom(window.ethereum)
     // })
 
-    // 1. Define your form.
+    const { toast } = useToast();
+
+    const { data: hash, isPending, writeContract } = useContractWrite();
+    const { isLoading: isConfirming, isSuccess: isConfirmed } =
+        useWaitForTransactionReceipt({
+            hash,
+        })
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -58,46 +69,39 @@ export function FormCreateBook({className = ""} : Props) {
         },
     })
 
-    // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log('Form Submitted', values);
-        console.log(values)
-        return;
-        // setLoading(true);
+    async function onSubmit(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
 
-        try {
-            // const [account] = await walletClient.getAddresses();
-
-            // if (!account) {
-            //     return;
-            // }
-
-            // await walletClient.writeContract({
-            //     ...wagmiBookContract,
-            //     functionName: 'createBook',
-            //     args: [
-            //         values.title,
-            //         values.description,
-            //         values.status,
-            //     ],
-            //     account,
-            // })
-        } catch (error) {
-            console.error(error);
-        }
+        writeContract({
+            ...wagmiBookContract,
+            functionName: 'createBook',
+            args: [
+                formData.get('title'),
+                formData.get('description'),
+                formData.get('status')
+            ],
+        })
     }
 
     // const onSubmit = data => console.log(data);
 
+    console.log({isPending});
+    console.log({isConfirming});
+    console.log({isConfirmed});
 
-    const classes = cn(className || "", "space-y-8")
+
+    const classes = cn(className || "", "space-y-8");
+
+    if( isConfirmed ){
+        redirect('/book/', type)
+        return null;
+    }
 
     return (
         <Form {...form}>
             <form
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={onSubmit}
                 className={classes}
             >
                 <FormField
@@ -124,6 +128,35 @@ export function FormCreateBook({className = ""} : Props) {
 
                 <FormField
                     control={form.control}
+                    name="status"
+                    render={({ field }) => (
+                        <div className="w-full">
+                            <FormLabel>Status</FormLabel>
+                            <FormControl>
+
+                                <RadioGroup name="status" className="flex gap-4" onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormItem className="inline-flex items-center space-x-2">
+                                        <RadioGroupItem value={BookStatus.Draft.toString()} id="draft"/>
+                                        <Label htmlFor="draft">Draft</Label>
+                                    </FormItem>
+                                    <FormItem className="inline-flex items-center space-x-2">
+                                        <RadioGroupItem value={BookStatus.InProgress.toString()} id="in_progress"/>
+                                        <Label htmlFor="in_progress">In Progress</Label>
+                                    </FormItem>
+                                    <FormItem className="inline-flex items-center space-x-2">
+                                        <RadioGroupItem value={BookStatus.Published.toString()} id="published"/>
+                                        <Label htmlFor="published">Published</Label>
+                                    </FormItem>
+                                </RadioGroup>
+
+                            </FormControl>
+                            <FormMessage />
+                        </div>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
                     name="description"
                     render={({ field }) => (
                         <FormItem className="w-full">
@@ -139,9 +172,23 @@ export function FormCreateBook({className = ""} : Props) {
                     )}
                 />
 
-                <Button type="submit" className="gap-2">
-                    <Plus className="h-5 w-5 flex-none" aria-hidden="true" />
-                    Create book
+                <Button
+                    disabled={isPending || isConfirming || isConfirmed}
+                    className="flex-shrink-0 gap-2"
+                    type="submit"
+                >
+                    {isConfirming || isPending ? (
+                        <>
+                            <RefreshCw className="w-5 h-5 flex-none animate-spin" />
+                            { isPending && (<span>Waiting…</span>)}
+                            { isConfirming && (<span>Sending…</span>)}
+                        </>
+                    ) : (
+                        <>
+                            <Plus className="h-5 w-5 flex-none" aria-hidden="true" />
+                            {'Create book'}
+                        </>
+                    )}
                 </Button>
             </form>
         </Form>

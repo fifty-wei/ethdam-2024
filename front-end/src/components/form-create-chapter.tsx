@@ -18,6 +18,7 @@ import {Plus, RefreshCw} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {useWalletClient} from "wagmi";
 import {Textarea} from "@/components/ui/textarea";
+import {wagmiBookContract} from "@/config/wagmi";
 
 enum BookStatus {
     Draft,
@@ -42,40 +43,22 @@ interface Props {
 
 export function FormCreateChapter({bookId, afterSubmit, className=""} : Props) {
 
-    // 2. Define a submit handler.
-    function onSubmit(e) {
+    async function onSubmit(e) {
         e.preventDefault();
-        const formData = formData.get('title')
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log('Form Submitted');
-        // console.log(values)
-        // return;
-        // setLoading(true);
+        const formData = new FormData(e.target);
 
-        try {
-            // const [account] = await walletClient.getAddresses();
+        writeContract({
+            ...wagmiBookContract,
+            functionName: 'createBook',
+            args: [
+                formData.get('title'),
+                formData.get('description'),
+                formData.get('status')
+            ],
+        })
 
-            // if (!account) {
-            //     return;
-            // }
-
-            // await walletClient.writeContract({
-            //     ...wagmiBookContract,
-            //     functionName: 'createBook',
-            //     args: [
-            //         values.title,
-            //         values.description,
-            //         values.status,
-            //     ],
-            //     account,
-            // })
-        } catch (error) {
-            console.error(error);
-        }
-
-        if( !!afterSubmit ){
-            afterSubmit()
+        if(!afterSubmit){
+            afterSubmit();
         }
     }
 
