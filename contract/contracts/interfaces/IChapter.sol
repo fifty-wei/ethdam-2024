@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
+import "@openzeppelin/contracts/access/AccessControl.sol";
+import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+
 /**
  * @title IChapter
  * @dev Interface for the Chapter contract functionalities
  */
-interface IChapter {
+abstract contract IChapter is ERC721, AccessControl {
     // =========================== Structs & Enum ==============================
 
     struct ChapterDetails {
@@ -24,7 +28,7 @@ interface IChapter {
      * @param _bookID The Book ID
      * @return ChapterDetails[] memory Returns an array of chapter details
      */
-    function getChapters(uint256 _bookID) external view returns (ChapterDetails[] memory);
+    function getChapters(uint256 _bookID) virtual external view returns (ChapterDetails[] memory);
 
     // =========================== User functions ==============================
 
@@ -40,17 +44,15 @@ interface IChapter {
         string memory _name,
         string memory _publicContent,
         string memory _privateContent
-    ) external;
+    ) virtual external;
 
-    function ownerOf(uint256 tokenId) external view returns (address);
+    // =========================== Overrides ==============================
 
-    function isValid(uint256 _hackathonId) external view;
+    /**
+     * @dev See {IERC165-supportsInterface}.
+     */
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
+        return ERC721.supportsInterface(interfaceId) || AccessControl.supportsInterface(interfaceId);
+    }
 
-    function supportsInterface(bytes4 interfaceId) external view returns (bool);
-
-    function transferFrom(address from, address to, uint256 tokenId) external;
-
-    function safeTransferFrom(address from, address to, uint256 tokenId) external;
-
-    function tokenURI(uint256 tokenId) external view returns (string memory);
 }

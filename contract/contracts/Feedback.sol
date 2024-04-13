@@ -10,17 +10,8 @@ import {IChapter} from "./interfaces/IChapter.sol";
 /**
  * @title Feedback Contract
  * @author FiftyWei Team @ ETH Amsterdam
- */ contract Feedback is ERC721, AccessControl {
-    using Counters for Counters.Counter;
-
-    struct FeedbackDetails {
-        uint256 id;
-        address owner;
-        uint256 chapterId;
-        string content;
-        uint256 rating;
-        FeedbackStatus status;
-    }
+ */ 
+ contract Feedback is ERC721, AccessControl {
 
     enum FeedbackStatus {
         Waiting,
@@ -32,6 +23,17 @@ import {IChapter} from "./interfaces/IChapter.sol";
         Pending,
         Accepted,
         Rejected
+    }
+    
+    using Counters for Counters.Counter;
+
+    struct FeedbackDetails {
+        uint256 id;
+        address owner;
+        uint256 chapterId;
+        string content;
+        uint256 rating;
+        FeedbackStatus status;
     }
 
     struct WaitingListDetails {
@@ -81,6 +83,14 @@ import {IChapter} from "./interfaces/IChapter.sol";
         return result;
     }
 
+    function getAllWaitingList(uint256 _chapterId) public view returns (WaitingListDetails[] memory) {
+        WaitingListDetails[] memory result = new WaitingListDetails[](chapterWaitingLists[_chapterId].length);
+        for (uint256 i = 0; i < chapterWaitingLists[_chapterId].length; i++) {
+            result[i] = waitingList[chapterWaitingLists[_chapterId][i]];
+        }
+        return result;
+    }
+
     // check if a user is whitelisted for a specific chapter
     function isWhitelistedUser(address _user, uint256 _chapterId) private view returns (bool) {
         for (uint256 i = 0; i < chapterWaitingLists[_chapterId].length; i++) {
@@ -99,7 +109,7 @@ import {IChapter} from "./interfaces/IChapter.sol";
 
     // Apply to whitlelist function
     function applyToWhitelist(uint256 _chapterId) public {
-        uint256 waitingListId = nextFeedbackId.current();
+        uint256 waitingListId = nextWaitingListId.current();
 
         WaitingListDetails memory newWaitingList = WaitingListDetails({
             id: waitingListId,
@@ -143,7 +153,7 @@ import {IChapter} from "./interfaces/IChapter.sol";
         changeFeedbackStatus(_feedbackId, FeedbackStatus.Accepted);
     }
 
-    // Accept a feedback
+    // Reject a feedback
     function rejectFeedback(uint256 _feedbackId) public {
         changeFeedbackStatus(_feedbackId, FeedbackStatus.Rejected);
     }
@@ -172,11 +182,11 @@ import {IChapter} from "./interfaces/IChapter.sol";
         return ERC721.supportsInterface(interfaceId) || AccessControl.supportsInterface(interfaceId);
     }
 
-    function transferFrom(address from, address to, uint256 tokenId) public virtual override(ERC721) {
+    function transferFrom(address, address, uint256) public virtual override(ERC721) {
         revert("Not allowed");
     }
 
-    function safeTransferFrom(address from, address to, uint256 tokenId) public virtual override(ERC721) {
+    function safeTransferFrom(address, address, uint256) public virtual override(ERC721) {
         revert("Not allowed");
     }
 }
