@@ -4,7 +4,6 @@ import { Button } from './ui/button';
 import {Check, RefreshCw} from "lucide-react";
 
 export default function ModalCreatedEvent({isSuccess, isOpen, setOpen}: {isSuccess: boolean, isOpen: boolean, setOpen: (open: boolean) => void}) {
-    console.log({isSuccess});
 
     return (
         <Transition.Root show={isOpen} as={Fragment}>

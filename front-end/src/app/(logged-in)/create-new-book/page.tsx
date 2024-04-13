@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
@@ -19,65 +20,116 @@ import {Account} from "@/components/account";
 import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group"
-import {Button} from "@/components/ui/button";
-import { useContractWrite, useWaitForTransactionReceipt } from 'wagmi';
-import {config} from "@/config";
+import {http, useContractWrite, usePrepareTransactionRequest, useWaitForTransactionReceipt} from 'wagmi';
+import {wagmiConfig} from "@/config/wagmi";
 
 import ModalCreatedBook from "@/components/modal-created-book";
 import { useState} from "react";
+import {custom, createPublicClient, createWalletClient} from "viem";
+import {mainnet, sepolia} from "wagmi/chains";
+
+
+export const publicClient = createPublicClient({
+    chain: mainnet,
+    transport: http()
+})
+
+export
+
 
 const formSchema = z.object({
     name: z.string().min(2, {
         message: "Book Title must be at least 2 characters.",
     }),
-    status: z.string(),
+    status: z.enum([BookStatus.Draft, BookStatus.InProgress, BookStatus.Published]),
     description: z.string(),
 })
 
-export default function CreateBookPage() {
-    const [isOpen, setOpen] = useState(false)
-    const { data: hash, isLoading, writeAsync } = useContractWrite({
-        ...config,
-        functionName: 'createBook',
-    });
+enum BookStatus {
+    Draft,
+    InProgress,
+    Published,
+}
 
-    const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
-        hash: hash,
-    })
+export default function CreateNewBookPage() {
+    const [isOpen, setOpen] = useState(false)
+
+// JSON-RPC Account
+//     const [account] = await walletClient.getAddresses();
+
+    // const { data: hash, isLoading, writeAsync } = useContractWrite({
+    //     ...wagmiConfig,
+    //     functionName: 'createBook',
+    // });
+    //
+    // const { config, error } = usePrepareTransactionRequest({
+    //     ...wagmiConfig,
+    //     functionName: 'createBook',
+    // })
+    // const { data, writeContract } = useContractWrite(config)
+
+    // const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+    //     hash: hash,
+    // })
+
+    // console.log({isConfirming})
+    // console.log({isConfirmed})
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: "",
+            name: "",
+            status: BookStatus.Draft,
+            description: "",
         },
     })
 
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        const res = await writeAsync({
-            args: [
-                values.name,
-                values.description,
-                values.status,
-            ],
-        })
-        console.log({res})
-        if (!!res?.hash) {
-            setOpen(true);
-        }
+        console.log('toto');
+        console.log({values})
+
+        // const { request } = await publicClient.simulateContract({
+        //     address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+        //     abi: wagmiAbi,
+        //     functionName: 'mint',
+        //     args: [69420],
+        //     account
+        // })
+        // await walletClient.writeContract(request)
+
+        // const res = await writeAsync({
+        //     args: [
+        //         values.name,
+        //         values.description,
+        //         values.status,
+        //     ],
+        // })
+        // console.log({res})
+        // if (!!res?.hash) {
+        //     setOpen(true);
+        // }
     }
+
+    const isConfirming = false;
+    const isConfirmed = false;
 
     return (
         <>
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}
-                  className="bg-background relative min-h-screen isolate overflow-hidden">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col bg-background relative min-h-screen isolate overflow-hidden"
+            >
                 <HeaderLoggedIn>
                     <span className="font-semibold">New book</span>
-                    <Button size="icon" className="absolute right-2">
-                        <Check className="h-5 w-5"/>
-                        <span className="sr-only">Create book</span>
-                    </Button>
+                    <div size="icon" className="absolute right-4">
+                        <Account />
+                    </div>
+                    {/*<Button size="icon" className="absolute right-2">*/}
+                    {/*    <Check className="h-5 w-5"/>*/}
+                    {/*    <span className="sr-only">Create book</span>*/}
+                    {/*</Button>*/}
                 </HeaderLoggedIn>
 
                 <div
@@ -93,15 +145,29 @@ export default function CreateBookPage() {
                     />
                 </div>
                 <div
-                    className="mx-auto flex items-center justify-center max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40">
+                    className="">
                     <div
                         className="mx-auto flex flex-col gap-8 items-center text-center max-w-6xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-                        <Input className="w-full" placeholder="Book title"/>
+
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem className="w-full">
+                                    <FormLabel className="sr-only">Description</FormLabel>
+                                    <FormControl>
+                                        <Input className="w-full" placeholder="Book title" {...field}/>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
                         <div className="flex gap-2 items-center">
                             <CircleUser className="h-5 w-5"/>
                             <Account/>
                         </div>
+
 
                         <RadioGroup className="flex gap-4" defaultValue="draft">
                             <div className="inline-flex items-center space-x-2">
@@ -118,9 +184,22 @@ export default function CreateBookPage() {
                             </div>
                         </RadioGroup>
 
-                        <Textarea className="w-full min-h-[200px]" placeholder="Summary of the book"/>
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem className="w-full">
+                                    <FormLabel className="sr-only">Description</FormLabel>
+                                    <FormControl>
+                                        <Textarea className="w-full min-h-[200px]" placeholder="Summary of the book" {...field}/>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                        <Button disabled={isLoading} className="gap-2" type="submit">
+
+                        <Button disabled={false} className="gap-2" type="submit">
                             {isConfirming ? (
                                 <>
                                     <RefreshCw className="h-5 w-5 flex-none animate-spin" aria-hidden="true" />
@@ -137,7 +216,7 @@ export default function CreateBookPage() {
                 </div>
             </form>
         </Form>
-        <ModalCreatedBook isSuccess={!isConfirming || isConfirmed} isOpen={isOpen} setOpen={setOpen} />
+        <ModalCreatedBook isSuccess={isConfirmed} isOpen={isOpen} setOpen={setOpen} />
         </>
     )
 }

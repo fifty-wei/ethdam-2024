@@ -7,11 +7,11 @@ import LoginPage from "@/components/login-page";
 export default function LoggedInLayout({children}: PropsWithChildren) {
     const {isConnected} = useAccount();
 
-    if( !isConnected ) {
-        return <LoginPage />;
-    }
+    // if( !isConnected ) {
+    //     return <LoginPage />;
+    // }
 
-    return isConnected && (
+    return (
         <>
             {children}
         </>

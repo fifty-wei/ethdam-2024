@@ -17,18 +17,6 @@ export function HeaderLoggedIn({children}) {
     return (
         <header className="sticky min-w-screen w-full top-0 flex items-center justify-center h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
             {children}
-
-            {/*<div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">*/}
-            {/*    <DropdownMenu>*/}
-            {/*        <DropdownMenuTrigger asChild>*/}
-            {/*            <Button variant="secondary" size="icon" className="rounded-full">*/}
-
-            {/*                <Account />*/}
-            {/*                <span className="sr-only">Toggle user menu</span>*/}
-            {/*            </Button>*/}
-            {/*        </DropdownMenuTrigger>*/}
-            {/*    </DropdownMenu>*/}
-            {/*</div>*/}
         </header>
     )
 }
