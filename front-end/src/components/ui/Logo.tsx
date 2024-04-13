@@ -1,0 +1,19 @@
+import Image from "next/image";
+
+interface Props {
+  className?: string;
+  width?: number;
+  height?: number;
+}
+
+export default function Logo({ className, width, height }: Props) {
+  return (
+    <Image
+      src="/logo.svg"
+      alt="Logo"
+      width={width}
+      height={height}
+      className={className}
+    />
+  );
+}
