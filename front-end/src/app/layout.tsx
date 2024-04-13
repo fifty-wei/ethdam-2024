@@ -25,7 +25,6 @@ export default function RootLayout({
         <ClientOnly>
           <WagmiProvider config={wagmiConfig}>
             <QueryClientProvider client={queryClient}>
-              <Header />
               {children}
               <Toaster />
             </QueryClientProvider>
