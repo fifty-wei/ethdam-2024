@@ -35,10 +35,10 @@ contract Chapter is IChapter {
 
     // =========================== Constructor ==============================
 
-    constructor(address feedback_manager_address) ERC721("ChapterID", "CHA") {
+    constructor() ERC721("ChapterID", "CHA") {
         nextChapterId.increment(); // we start the BookID at 1
         
-        feedback_manager = Feedback(feedback_manager_address);
+        feedback_manager = new Feedback(address(this));
     }
 
     // =========================== View functions ==============================
