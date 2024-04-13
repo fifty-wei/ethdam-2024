@@ -6,6 +6,7 @@ import {Counters} from "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {IChapter} from "./interfaces/IChapter.sol";
+import {Feedback} from "./Feedback.sol";
 
 /**
  * @title Chapter Contract
@@ -13,6 +14,8 @@ import {IChapter} from "./interfaces/IChapter.sol";
  */
 contract Chapter is IChapter {
     using Counters for Counters.Counter;
+
+    Feedback feedback_manager;
 
     // =========================== Mappings & Variables ==============================
 
@@ -34,16 +37,33 @@ contract Chapter is IChapter {
 
     constructor() ERC721("ChapterID", "CHA") {
         nextChapterId.increment(); // we start the BookID at 1
+        
+        feedback_manager = new Feedback(address(this));
+    }
+
+    function getFeedbackManager() external view returns (address) {
+        return address(feedback_manager);
     }
 
     // =========================== View functions ==============================
 
     /**
-     * @notice Get the Chapter ID of the book
+     * @notice Get the Chapter ID of the book.
+     *         By default, when the user is not whitelisted, the private part is discard.
      * @param _bookID The Book ID
      */
     function getChapters(uint256 _bookID) override public view returns (ChapterDetails[] memory) {
-        return bookChapters[_bookID];
+        ChapterDetails[] memory chapters = new ChapterDetails[](bookChapters[_bookID].length);
+        for (uint256 i = 0; i < bookChapters[_bookID].length; i++) {
+            chapters[i] = bookChapters[_bookID][i];
+
+            uint256 chapter_id = bookChapters[_bookID][i].id;
+            // If the user is not whitelisted, hide the private part
+            if (!feedback_manager.isWhitelistedUser(msg.sender, chapter_id)) {
+                chapters[i].privateContent = "";
+            }
+        }
+        return chapters;
     }
 
     // =========================== User functions ==============================

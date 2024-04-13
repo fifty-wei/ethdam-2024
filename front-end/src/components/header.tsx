@@ -58,28 +58,6 @@ export function Header() {
                     variant="link"
                     className="menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7"
                   >
-                    <Link onClick={() => setIsOpen(false)} href="#donations">
-                      About
-                    </Link>
-                  </Button>
-                </li>
-                <li className="menu-item">
-                  <Button
-                    asChild
-                    variant="link"
-                    className="menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7"
-                  >
-                    <Link onClick={() => setIsOpen(false)} href="#events">
-                      Bounties
-                    </Link>
-                  </Button>
-                </li>
-                <li className="menu-item">
-                  <Button
-                    asChild
-                    variant="link"
-                    className="menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7"
-                  >
                     <Link onClick={() => setIsOpen(false)} href="#features">
                       Features
                     </Link>
@@ -91,8 +69,30 @@ export function Header() {
                     variant="link"
                     className="menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7"
                   >
-                    <Link onClick={() => setIsOpen(false)} href="#team">
-                      Team
+                    <Link onClick={() => setIsOpen(false)} href="#bounties">
+                      Bounties
+                    </Link>
+                  </Button>
+                </li>
+                <li className="menu-item">
+                  <Button
+                    asChild
+                    variant="link"
+                    className="menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7"
+                  >
+                    <Link onClick={() => setIsOpen(false)} href="#dashboard">
+                      Dashboard
+                    </Link>
+                  </Button>
+                </li>
+                <li className="menu-item">
+                  <Button
+                    asChild
+                    variant="link"
+                    className="menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7"
+                  >
+                    <Link onClick={() => setIsOpen(false)} href="#contact">
+                      Contact
                     </Link>
                   </Button>
                 </li>

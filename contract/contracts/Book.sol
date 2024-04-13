@@ -77,7 +77,7 @@ contract Book is ERC721, AccessControl {
     // get all books
     function getAllBooks() public view returns (BookDetails[] memory) {
         BookDetails[] memory result = new BookDetails[](nextBookId.current());
-        for (uint256 i = 0; i < nextBookId.current(); i++) {
+        for (uint256 i = 0; i < nextBookId.current() - 1; i++) {
             result[i] = books[i];
         }
         return result;
