@@ -21,7 +21,7 @@ export function Header() {
         <div className="flex items-center justify-between">
           <div className="block py-4 lg:py-0">
             <a href="/" className="block max-w-[145px] sm:max-w-[180px]">
-              <Logo className="text-yellow-400" width={200} height={60} />
+              <Logo className="text-yellow-400" width={40} height={40} />
             </a>
           </div>
           <button

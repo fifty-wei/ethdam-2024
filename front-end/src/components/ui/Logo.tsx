@@ -9,7 +9,7 @@ interface Props {
 export default function Logo({ className, width, height }: Props) {
   return (
     <Image
-      src="/logo.svg"
+      src="/bhook.png"
       alt="Logo"
       width={width}
       height={height}
