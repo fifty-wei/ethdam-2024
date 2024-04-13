@@ -12,14 +12,14 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import {HeaderLoggedIn} from "@/components/header-logged-in";
-import {Input} from "@/components/ui/input";
-import {Check, CircleUser, Plus, RefreshCw} from "lucide-react";
-import {Account} from "@/components/account";
-import {Button} from "@/components/ui/button";
+import { HeaderLoggedIn } from "@/components/header-logged-in";
+import { Input } from "@/components/ui/input";
+import { Check, CircleUser, Plus, RefreshCw } from "lucide-react";
+import { Account } from "@/components/account";
+import { Button } from "@/components/ui/button";
 
 
-import { useState} from "react";
+import { useState } from "react";
 
 import { ApiSdk } from "@bandada/api-sdk";
 import { exit } from "process";
@@ -33,28 +33,22 @@ export default function Community() {
     // const [isConfirmed, setIsConfirmed] = useState(false);
     // const [isSuccess, setIsSuccess] = useState(false);
     // const [isConfirming, setisConfirming] = useState(false);
-    
+
 
     // https://github.com/bandada-infra/bandada/tree/main/libs/api-sdk
     // https://bandada.pse.dev/groups
     async function submitForm(event) {
-
         event.preventDefault();
         const formData = new FormData(event.target);
 
         let title = formData.get("title");
         let description = formData.get("description");
 
-        console.log(title)
-        console.log(description)
-        
-
-        if (title === undefined || description === undefined) {
+        if (title === "" || description === "") {
+            console.log("Please fill the form...");
             return;
         }
 
-        console.log("here")
-        
         // Create a group 
         const groupCreateDetails = {
             name: title,
@@ -62,19 +56,12 @@ export default function Community() {
             treeDepth: 16,
             fingerprintDuration: 3600
         }
-        
+
         const group = await apiSdk.createGroup(groupCreateDetails, apiKey)
-
-        console.log(group);
-        console.log(group["id"]);
-
-        let groupId = group["id"];
-
+        // console.log(group);
+        
         // Create an invite
-
-        // const groupId = "10402173435763029700781503965100"
-        // const apiKey = "70f07d0d-6aa2-4fe1-b4b9-06c271a641dc"
-
+        let groupId = group["id"];
         const invite = await apiSdk.createInvite(groupId, apiKey)
         console.log("Create invite")
         console.log(invite)
@@ -84,14 +71,14 @@ export default function Community() {
 
     return (
         <>
-        
+
             <form onSubmit={e => submitForm(e)}
-                  className="bg-background relative min-h-screen isolate overflow-hidden">
-                
+                className="bg-background relative min-h-screen isolate overflow-hidden">
+
                 <HeaderLoggedIn>
                     <span className="font-semibold">Create a commmunity</span>
                     <Button size="icon" className="absolute right-2">
-                        <Check className="h-5 w-5"/>
+                        <Check className="h-5 w-5" />
                         <span className="sr-only">Create a commmunity</span>
                     </Button>
                 </HeaderLoggedIn>
@@ -112,35 +99,27 @@ export default function Community() {
                     className="mx-auto flex items-center justify-center max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40">
                     <div
                         className="mx-auto flex flex-col gap-8 items-center text-center max-w-6xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-                        
 
-                        <Input className="w-full" placeholder="Community name" name="title"/>
-                        
-                        <Input className="w-full" placeholder="Community description" name="description"/>
+
+                        <Input className="w-full" placeholder="Community name" name="title" />
+
+                        <Input className="w-full" placeholder="Community description" name="description" />
 
                         <div className="flex gap-2 items-center">
-                            <CircleUser className="h-5 w-5"/>
-                            <Account/>
+                            <CircleUser className="h-5 w-5" />
+                            <Account />
                         </div>
 
-                        
-                        <Button type="submit">Submit
-                            {/* {isConfirming ? (
-                                <>
-                                    <RefreshCw className="h-5 w-5 flex-none animate-spin" aria-hidden="true" />
-                                    Confirming
-                                </>) : (
-                                <>
-                                    <Plus className="h-5 w-5 flex-none" aria-hidden="true" />
-                                    Create book
-                                </>
-                            )} */}
+
+                        <Button type="submit">
+                            <Plus className="h-5 w-5 flex-none" aria-hidden="true" />
+                            Create Group
                         </Button>
 
                     </div>
                 </div>
             </form>
-        
+
         </>
     )
 }
