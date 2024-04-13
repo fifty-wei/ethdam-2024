@@ -23,6 +23,7 @@ export function HeaderLoggedIn({ children }) {
   return (
     <header className="sticky min-w-screen w-full top-0 flex items-betx justify-center h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <Logo className="text-yellow-400" width={40} height={40} />
+
       {children}
     </header>
   );
