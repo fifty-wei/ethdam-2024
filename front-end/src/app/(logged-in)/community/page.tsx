@@ -28,8 +28,9 @@ export default function Community() {
     const apiSdk = new ApiSdk()
     const apiKey = process.env.NEXT_PUBLIC_BANDADA_ADMIN_API_KEY!;
 
+    let [title, setTitle] = useState([""]);
     let [emails, setEmails] = useState([""]);
-    let invitationLinks = [];
+    let [invitationLinks, setInvitationLinks] = useState([]);
 
     const [isForm, setIsForm] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +52,10 @@ export default function Community() {
             return;
         }
 
+        console.log(formData.get(""))
+
+        setTitle(title);
+
         // Create a group 
         const groupCreateDetails = {
             name: title,
@@ -69,6 +74,10 @@ export default function Community() {
             invitationLinks.push(invite["code"]);
         }
 
+        console.log(emails);
+        console.log(invitationLinks);
+
+        setInvitationLinks(invitationLinks)
 
         setIsLoading(false);
         setIsForm(false);
@@ -77,6 +86,12 @@ export default function Community() {
     const addEmail = () => {
         setEmails([...emails, ""]);
     }
+
+    const handleEmailChange = (index, newValue) => {
+        const updatedEmails = [...emails]; 
+        updatedEmails[index] = newValue; 
+        setEmails(updatedEmails); 
+    };
 
 
     return (
@@ -126,7 +141,13 @@ export default function Community() {
                             <div>
                                 {emails.map((item, index) => (
                                     <div key={index}>
-                                        <Input className="w-full" placeholder="Email" name="title" defaultValue={item} />
+                                        <Input 
+                                            className="w-full" 
+                                            placeholder="Email" 
+                                            name="email" 
+                                            defaultValue={item} 
+                                            onChange={(e) => handleEmailChange(index, e.target.value)}
+                                        />
                                     </div>
                                 ))}
                             </div>
@@ -151,8 +172,15 @@ export default function Community() {
             </>
         ) : (
             <>
-                <h2>Here your new group </h2>
-                <span>des</span>
+                <h2>New group created: {title}</h2>
+                <div>
+                    {emails.map((item, index) => (
+                        <div key={index}>
+                            <p>{item} : {invitationLinks[index]}</p>
+                        </div>
+                    ))}
+                </div>
+
             </>
         ))
     )
