@@ -265,7 +265,7 @@ export function Example() {
         </div>
 
         {/* Feature section */}
-        <div className="mx-auto mt-32 max-w-7xl px-6  lg:px-8">
+        <div id="features" className="mx-auto mt-32 max-w-7xl px-6  lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-base font-semibold leading-7 text-indigo-400">
               Create with ease
@@ -302,7 +302,10 @@ export function Example() {
         </div>
 
         {/* Logo cloud */}
-        <div className="mx-auto mt-20 max-w-7xl px-6 sm:mt-16 lg:px-8">
+        <div
+          id="bounties"
+          className="mx-auto mt-20 max-w-7xl px-6 sm:mt-16 lg:px-8"
+        >
           <div className="mx-auto mt-40 max-w-2xl text-center">
             <h2 className="text-base font-semibold leading-7 text-indigo-400">
               Community & Privacy
@@ -330,7 +333,7 @@ export function Example() {
         </div>
 
         {/* Feature section */}
-        <div className="mt-32 sm:mt-30">
+        <div id="dashboard" className="mt-32 sm:mt-30">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl sm:text-center">
               <h2 className="text-base font-semibold leading-7 text-indigo-400">
@@ -363,7 +366,10 @@ export function Example() {
         </div>
 
         {/* CTA section */}
-        <div className="relative isolate mt-32 px-6 py-32   lg:px-8">
+        <div
+          id="contact"
+          className="relative isolate mt-32 px-6 py-32   lg:px-8"
+        >
           <svg
             className="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
             aria-hidden="true"
@@ -410,7 +416,7 @@ export function Example() {
               Your interested by our project
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
-              Please contact us at
+              Please contact us at hello@fiftywei.co or visit our website below
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a
@@ -418,7 +424,7 @@ export function Example() {
                 target="_blank"
                 className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                Handshake
+                FiftyWei
               </a>
             </div>
           </div>
