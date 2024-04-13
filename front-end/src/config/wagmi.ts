@@ -2,6 +2,7 @@ import { http, createConfig } from 'wagmi'
 import { mainnet, sepolia } from 'wagmi/chains'
 import chapterContract from "@/abi/Chapter.json"
 import bookContract from "@/abi/Book.json"
+import feedbackContract from "@/abi/Feedback.json"
 
 export const wagmiConfig = createConfig({
     chains: [mainnet, sepolia],
@@ -13,11 +14,16 @@ export const wagmiConfig = createConfig({
 })
 
 export const wagmiChapterContract = {
-    address: '0xC13c63da989deD6e71A10cc08833B9B80DE93BaD',
+    address: '0x777068Ed13a718D1E7E6D6a9E0481b0651c3F78f',
     abi: chapterContract.abi,
 }
 
 export const wagmiBookContract = {
     address: '0xA27d893Bc437158c22414395209cfb17710CA068',
     abi: bookContract.abi,
+}
+
+export const wagmiFeedbackContract = {
+    address: '0x5298df04d7EDe4b2D4bA4eEF6dE678D9b66dBc2a',
+    abi: feedbackContract.abi,
 }

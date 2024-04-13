@@ -11,11 +11,18 @@ import {
     DialogTitle, DialogTrigger
 } from "@/components/ui/dialog";
 import {Label} from "@/components/ui/label";
+import {FormCreateChapter} from "@/components/form-create-chapter";
+import {useState} from "react";
 
 export default function ModalAddChapter() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    function closeModal() {
+        setIsOpen(false);
+    }
 
     return (
-        <Dialog>
+        <Dialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
             <DialogTrigger asChild>
                 <Button variant="outline">
                     <Plus className="w-5 h-5 flex-none" />
@@ -29,22 +36,23 @@ export default function ModalAddChapter() {
                         Anyone who has this link will be able to view this.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="flex items-center space-x-2">
-                    <div className="grid flex-1 gap-2">
-                        <Label htmlFor="link" className="sr-only">
-                            Link
-                        </Label>
-                        <Input
-                            id="link"
-                            defaultValue="https://ui.shadcn.com/docs/installation"
-                            readOnly
-                        />
-                    </div>
-                    {/*<Button type="submit" size="sm" className="px-3">*/}
-                    {/*    <span className="sr-only">Copy</span>*/}
-                    {/*    <Copy className="h-4 w-4" />*/}
-                    {/*</Button>*/}
-                </div>
+                <FormCreateChapter afterSubmit={closeModal} />
+                {/*<div className="flex items-center space-x-2">*/}
+                {/*    <div className="grid flex-1 gap-2">*/}
+                {/*        <Label htmlFor="link" className="sr-only">*/}
+                {/*            Link*/}
+                {/*        </Label>*/}
+                {/*        <Input*/}
+                {/*            id="link"*/}
+                {/*            defaultValue="https://ui.shadcn.com/docs/installation"*/}
+                {/*            readOnly*/}
+                {/*        />*/}
+                {/*    </div>*/}
+                {/*    /!*<Button type="submit" size="sm" className="px-3">*!/*/}
+                {/*    /!*    <span className="sr-only">Copy</span>*!/*/}
+                {/*    /!*    <Copy className="h-4 w-4" />*!/*/}
+                {/*    /!*</Button>*!/*/}
+                {/*</div>*/}
                 <DialogFooter className="sm:justify-start">
                     <DialogClose asChild>
                         <Button type="button" variant="secondary">

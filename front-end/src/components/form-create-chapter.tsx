@@ -42,23 +42,15 @@ interface Props {
 
 export function FormCreateChapter({bookId, afterSubmit, className=""} : Props) {
 
-    // 1. Define your form.
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: "",
-            status: BookStatus.InProgress,
-            description: "",
-        },
-    })
-
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(e) {
+        e.preventDefault();
+        const formData = formData.get('title')
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log('Form Submitted', values);
-        console.log(values)
-        return;
+        console.log('Form Submitted');
+        // console.log(values)
+        // return;
         // setLoading(true);
 
         try {
@@ -93,50 +85,48 @@ export function FormCreateChapter({bookId, afterSubmit, className=""} : Props) {
     const classes = cn(className || "", "space-y-8")
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className={classes}
-            >
-                <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                        <FormItem className="w-full">
-                            <FormLabel>Title</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Book Title" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                                This is your public display name.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+        <form
+            onSubmit={onSubmit}
+            className={classes}
+        >
+            <FormField
+                // control={form.control}
+                name="title"
+                render={({ field }) => (
+                    <FormItem className="w-full">
+                        <FormLabel>Title</FormLabel>
+                        <FormControl>
+                            <Input placeholder="Book Title" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            This is your public display name.
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
 
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                        <FormItem className="w-full">
-                            <FormLabel>Summary</FormLabel>
-                            <FormControl>
-                                <Textarea className="min-h-[250px]" placeholder="Summary of the book" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                                This is your public display name.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+            <FormField
+                // control={form.control}
+                name="description"
+                render={({ field }) => (
+                    <FormItem className="w-full">
+                        <FormLabel>Summary</FormLabel>
+                        <FormControl>
+                            <Textarea className="min-h-[250px]" placeholder="Summary of the book" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            This is your public display name.
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
 
-                <Button type="submit" className="gap-2">
-                    <Plus className="h-5 w-5 flex-none" aria-hidden="true" />
-                    Create book
-                </Button>
-            </form>
-        </Form>
+            <Button type="submit">
+                <Plus className="h-5 w-5 flex-none" aria-hidden="true" />
+                Create book
+            </Button>
+        </form>
     )
 }

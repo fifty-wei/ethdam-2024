@@ -2,11 +2,12 @@
 
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { wagmiConfig } from '../config/wagmi'
+import { wagmiConfig } from '@/config/wagmi'
 import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import {ReactNode, useEffect, useState} from "react";
+import {ReactNode} from "react";
 import {ClientOnly} from "@/components/client-only";
+import {Toaster} from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
             <WagmiProvider config={wagmiConfig}>
                 <QueryClientProvider client={queryClient}>
                         {children}
+                        <Toaster />
                 </QueryClientProvider>
             </WagmiProvider>
         </ClientOnly>

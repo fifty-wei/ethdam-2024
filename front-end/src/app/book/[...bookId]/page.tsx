@@ -5,9 +5,11 @@ import {useAccount, useContractReads} from "wagmi";
 import {useParams} from "next/navigation";
 import {wagmiBookContract, wagmiChapterContract} from "@/config/wagmi";
 import {Button} from "@/components/ui/button";
-import {Plus} from "lucide-react";
+import {MessageCircleMore, Plus} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import ModalAddChapter from "@/components/modal-add-chapter";
+import {ApplyToGiveFeedback} from "@/components/apply-to-give-feedback";
+import {ChapterItem} from "@/components/chapter-item";
 
 export default function Home() {
     const {bookId} = useParams<{ bookId: string }>()
@@ -19,14 +21,14 @@ export default function Home() {
                 ...wagmiChapterContract,
                 functionName: 'getChapters',
                 args: [
-                    bookId
+                    BigInt(bookId)
                 ]
             },
             {
                 ...wagmiBookContract,
                 functionName: 'getBookById',
                 args: [
-                    parseInt(bookId, 10)
+                    BigInt(bookId)
                 ]
             },
         ],
@@ -43,6 +45,8 @@ export default function Home() {
     console.log({ data })
     const [chaptersData, bookData] = data || [];
 
+    console.log({chaptersData});
+
     const book = bookData.result;
     const chapters = chaptersData.result;
 
@@ -57,7 +61,7 @@ export default function Home() {
     console.log({chapters})
 
   return (
-      <main className="bg-background relative isolate overflow-hidden">
+      <main className="bg-background">
           {/* Hero section */}
             <svg
                 className="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
@@ -97,9 +101,9 @@ export default function Home() {
               />
             </div>
 
-          <h1 className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-24 text-4xl font-bold tracking-tight text-white sm:text-6xl lg:px-8 lg:pt-40">
+            <h1 className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-24 text-4xl font-bold tracking-tight text-white sm:text-6xl lg:px-8 lg:pt-40">
             { book.name }
-          </h1>
+            </h1>
 
             <div className="mx-auto max-w-7xl px-6 pb-24 sm:pb-40 lg:flex lg:px-8 lg:gap-10 xl:gap-32">
 
@@ -138,6 +142,15 @@ export default function Home() {
               </div>
 
             </div>
+
+          { chapters.map((chapter, index) => {
+
+              return(
+                <ChapterItem key={chapter.id} book={book} index={index + 1} chapter={chapter} />
+              )
+          })}
+
+
       </main>
   );
 }
