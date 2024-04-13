@@ -426,7 +426,7 @@ export function Example() {
         </main>
 
         {/* Footer */}
-        <footer aria-labelledby="footer-heading" className="relative">
+        <footer aria-labelledby="footer-heading" className="relative pb-40">
           <h2 id="footer-heading" className="sr-only">
             Footer
           </h2>
