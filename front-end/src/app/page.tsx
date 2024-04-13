@@ -250,16 +250,6 @@ export function Example() {
                   />
                 </figure>
               </Link>
-
-              {/*<figure className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">*/}
-              {/*  <img*/}
-              {/*      src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"*/}
-              {/*      alt="App screenshot"*/}
-              {/*      width={2432}*/}
-              {/*      height={1442}*/}
-              {/*      className="w-[76rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10"*/}
-              {/*  />*/}
-              {/*</figure>*/}
             </div>
           </div>
         </div>
@@ -315,14 +305,14 @@ export function Example() {
             </p>
           </div>
           <div className="mx-auto mt-10 grid max-w-lg grid-cols-2 items-center  sm:max-w-xl sm:gap-x-10 lg:grid-cols-2">
-            <img
+            <Image
               className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
               src="bandada.webp"
               alt="bandada"
               width={158}
               height={48}
             />
-            <img
+            <Image
               className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
               src="oasis.png"
               alt="oasis"
@@ -351,7 +341,7 @@ export function Example() {
           </div>
           <div className="relative overflow-hidden pt-16">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
-              <img
+              <Image
                 src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
                 alt="App screenshot"
                 className="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-white/10"
