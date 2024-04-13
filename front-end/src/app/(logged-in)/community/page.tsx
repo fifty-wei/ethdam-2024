@@ -1,27 +1,15 @@
 'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
+
 import { HeaderLoggedIn } from "@/components/header-logged-in";
 import { Input } from "@/components/ui/input";
 import { Check, CircleUser, Plus, RefreshCw } from "lucide-react";
-import { Account } from "@/components/account";
 import { Button } from "@/components/ui/button";
-
 
 import { useState } from "react";
 
 import { ApiSdk } from "@bandada/api-sdk";
+import Link from "next/link";
 
 export default function Community() {
 
@@ -35,7 +23,7 @@ export default function Community() {
     const [isForm, setIsForm] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
 
-    
+
 
     // https://github.com/bandada-infra/bandada/tree/main/libs/api-sdk
     // https://bandada.pse.dev/groups
@@ -88,9 +76,9 @@ export default function Community() {
     }
 
     const handleEmailChange = (index, newValue) => {
-        const updatedEmails = [...emails]; 
-        updatedEmails[index] = newValue; 
-        setEmails(updatedEmails); 
+        const updatedEmails = [...emails];
+        updatedEmails[index] = newValue;
+        setEmails(updatedEmails);
     };
 
 
@@ -141,11 +129,11 @@ export default function Community() {
                             <div>
                                 {emails.map((item, index) => (
                                     <div key={index}>
-                                        <Input 
-                                            className="w-full" 
-                                            placeholder="Email" 
-                                            name="email" 
-                                            defaultValue={item} 
+                                        <Input
+                                            className="w-full"
+                                            placeholder="Email"
+                                            name="email"
+                                            defaultValue={item}
                                             onChange={(e) => handleEmailChange(index, e.target.value)}
                                         />
                                     </div>
@@ -172,15 +160,32 @@ export default function Community() {
             </>
         ) : (
             <>
-                <h2>New group created: {title}</h2>
-                <div>
-                    {emails.map((item, index) => (
-                        <div key={index}>
-                            <p>{item} : {invitationLinks[index]}</p>
-                        </div>
-                    ))}
-                </div>
+                <div className="bg-background relative min-h-screen isolate overflow-hidden">
 
+                    <HeaderLoggedIn>
+                        <span className="font-semibold">Create a commmunity</span>
+                        <Button size="icon" className="absolute right-2">
+                            <Check className="h-5 w-5" />
+                            <span className="sr-only">Create a commmunity</span>
+                        </Button>
+                    </HeaderLoggedIn>
+
+                    <div
+                        className="mx-auto flex items-center justify-center max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40">
+                        <div
+                            className="mx-auto flex flex-col gap-8 items-center text-center max-w-6xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
+
+                            <h2>New group created: {title}</h2>
+                            <div>
+                                {emails.map((item, index) => (
+                                    <div key={index}>
+                                        <p>{item} : <Link href={`/community/join/${invitationLinks[index]}`}>{invitationLinks[index]}</Link></p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </>
         ))
     )
