@@ -5,7 +5,7 @@ import {useAccount, useContractReads} from "wagmi";
 import {useParams} from "next/navigation";
 import {wagmiBookContract, wagmiChapterContract} from "@/config/wagmi";
 import {Button} from "@/components/ui/button";
-import {MessageCircleMore, Plus} from "lucide-react";
+import {MessageCircleMore, Plus, RefreshCw} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import ModalAddChapter from "@/components/modal-add-chapter";
 import {ApplyToGiveFeedback} from "@/components/apply-to-give-feedback";
@@ -35,11 +35,16 @@ export default function Home() {
     })
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <div className="min-h-screen min-w-screen flex flex-col justify-center items-center">
+            <figure className="mx-auto flex h-12 w-12 items-center justify-center rounded-full ">
+                <RefreshCw className="h-6 w-6 text-mute animate-spin -scale-1" aria-hidden="true" />
+            </figure>
+            Loading
+        </div>
     }
 
     if (isError) {
-        return <div>Error: {isError.message}</div>
+        return <div className="min-h-screen min-w-screen">Error: {isError.message}</div>
     }
 
     console.log({ data })
@@ -60,7 +65,15 @@ export default function Home() {
     console.log({book})
     console.log({chapters})
 
-  return (
+    if( bookData.status !== 'success'){
+        return (
+            <div className="min-h-screen min-w-screen flex justify-center items-center max-w-2xl mx-auto">
+                {bookData.error.toString()}
+            </div>
+        )
+    }
+
+  return !! book && (
       <main className="bg-background">
           {/* Hero section */}
             <svg
@@ -101,7 +114,7 @@ export default function Home() {
               />
             </div>
 
-            <h1 className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-24 text-4xl font-bold tracking-tight text-white sm:text-6xl lg:px-8 lg:pt-40">
+            <h1 className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-24 text-4xl font-bold tracking-tight sm:text-6xl lg:px-8 lg:pt-40">
             { book.name }
             </h1>
 
@@ -124,7 +137,7 @@ export default function Home() {
                 {/*    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"*/}
                 {/*    alt="Your Company"*/}
                 {/*/>*/}
-                <p className="mt-6 text-lg leading-8 text-gray-300">
+                <p className="mt-6 text-lg leading-8 text-primary/50">
                   { book.description }
                 </p>
 
