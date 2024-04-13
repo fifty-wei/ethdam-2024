@@ -82,7 +82,7 @@ import {IChapter} from "./interfaces/IChapter.sol";
     }
 
     // check if a user is whitelisted for a specific chapter
-    function isWhitelisted(address _user, uint256 _chapterId) public view returns (bool) {
+    function isWhitelistedUser(address _user, uint256 _chapterId) private view returns (bool) {
         for (uint256 i = 0; i < chapterWaitingLists[_chapterId].length; i++) {
             WaitingListDetails memory waitingListData = waitingList[chapterWaitingLists[_chapterId][i]];
             if (waitingListData.owner == _user) {
@@ -90,6 +90,11 @@ import {IChapter} from "./interfaces/IChapter.sol";
             }
         }
         return false;
+    }
+
+    // isWhitelisted public with chapterId
+    function isWhitelisted(uint256 _chapterId) public view returns (bool) {
+        return isWhitelistedUser(msg.sender, _chapterId);
     }
 
     // Apply to whitlelist function
@@ -116,7 +121,7 @@ import {IChapter} from "./interfaces/IChapter.sol";
         uint256 feedbackId = nextFeedbackId.current();
 
         // we check if the user is whitelisted
-        require(isWhitelisted(msg.sender, _chapterId), "You are not whitelisted for this chapter");
+        require(isWhitelisted(_chapterId), "You are not whitelisted for this chapter");
 
         FeedbackDetails memory newFeedback = FeedbackDetails({
             id: feedbackId,
