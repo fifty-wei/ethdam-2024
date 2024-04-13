@@ -265,7 +265,7 @@ export function Example() {
                 Create with ease
               </h2>
               <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                Your community your power
+                Your community, Your power
               </p>
               <p className="mt-6 text-lg leading-8 text-gray-300">
                 Unique features make #Bhook the ideal platform for creators of
