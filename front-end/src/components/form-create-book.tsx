@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -16,13 +16,15 @@ import {
 import {Input} from "@/components/ui/input";
 import {Plus, RefreshCw} from "lucide-react";
 import {cn} from "@/lib/utils";
-import {useContractWrite, useWaitForTransactionReceipt, useWalletClient} from "wagmi";
+import {useContractWrite, useWaitForTransactionReceipt, useWalletClient, useConfig, usePublicClient, useAccount} from "wagmi";
 import {Textarea} from "@/components/ui/textarea";
 import {wagmiBookContract, wagmiFeedbackContract} from "@/config/wagmi";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {Label} from "@/components/ui/label";
 import {useToast} from "@/components/ui/use-toast";
 import {redirect} from "next/navigation";
+import {useSapphireContract} from "@/hooks/useSapphireContractWrite";
+import {useEffect} from "react";
 
 enum BookStatus {
     Draft,
@@ -54,12 +56,21 @@ export function FormCreateBook({className = ""} : Props) {
     // })
 
     const { toast } = useToast();
+    const { bookRepository } = useSapphireContract();
 
-    const { data: hash, isPending, writeContract } = useContractWrite();
-    const { isLoading: isConfirming, isSuccess: isConfirmed } =
-        useWaitForTransactionReceipt({
-            hash,
-        })
+    useEffect(() => {
+        async function fetchAllBooks() {
+            const books = await bookRepository.getAllBooks();
+            console.log({books});
+        }
+        fetchAllBooks();
+    }, []);
+
+    // const { data: hash, isPending, writeContract } = useContractWrite();
+    // const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    //     useWaitForTransactionReceipt({
+    //         hash,
+    //     })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -74,27 +85,49 @@ export function FormCreateBook({className = ""} : Props) {
         e.preventDefault();
         const formData = new FormData(e.target);
 
-        console.log({wagmiBookContract});
+        // console.log({wagmiBookContract});
 
-        writeContract({
-            ...wagmiBookContract,
-            functionName: 'createBook',
-            args: [
+        // writeContract({
+        //     ...wagmiBookContract,
+        //     functionName: 'createBook',
+        //     args: [
+        //         formData.get('title'),
+        //         formData.get('description'),
+        //         formData.get('status')
+        //     ],
+        // })
+
+        try{
+            const tx = await bookRepository.createBook(
                 formData.get('title'),
                 formData.get('description'),
                 formData.get('status')
-            ],
-        })
+            );
+            console.log({tx});
+        } catch (e) {
+            console.error(e);
+        }
+        // const tx = await bookRepository.createBook(
+        //     formData.get('title'),
+        //     formData.get('description'),
+        //     formData.get('status')
+        // );
+        //
+        // console.log({tx});
     }
 
     // const onSubmit = data => console.log(data);
 
-    console.log({isPending});
-    console.log({isConfirming});
-    console.log({isConfirmed});
-    console.log({hash});
+    // console.log({isPending});
+    // console.log({isConfirming});
+    // console.log({isConfirmed});
+    // console.log({hash});
 
     const classes = cn(className || "", "space-y-8");
+
+    const isPending = false;
+    const isConfirming = false;
+    const isConfirmed = false;
 
     if( isConfirmed ){
         redirect('/book/1')
