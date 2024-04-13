@@ -100,7 +100,7 @@ export function Header() {
             </nav>
           </div>
 
-          <div className="mr-8 flex items-center justify-end lg:mr-0">
+          <div className="mr-8 flex items-center justify-end lg:mr-0 text-amber-400 ">
             <ConnectWallet />
           </div>
         </div>

@@ -12,7 +12,11 @@ export function ConnectWallet() {
     return (
       <>
         <Account />
-        <Button variant="outline" onClick={() => disconnect()}>
+        <Button
+          variant="outline"
+          className="ml-10"
+          onClick={() => disconnect()}
+        >
           Disconnect
         </Button>
       </>
