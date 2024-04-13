@@ -21,65 +21,67 @@ import {Button} from "@/components/ui/button";
 
 import { useState} from "react";
 
-// const formSchema = z.object({
-//     title: z.string().min(2, {
-//         message: "Title must be at least 2 characters.",
-//     }),
-//     description: z.string(),
-// })
-
 import { ApiSdk } from "@bandada/api-sdk";
+import { exit } from "process";
 
 export default function Community() {
 
-
     const apiSdk = new ApiSdk()
+    const apiKey = process.env.NEXT_PUBLIC_BANDADA_ADMIN_API_KEY!;
 
-    const [name, setName] = useState("")
-
-    // const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     // const [isConfirmed, setIsConfirmed] = useState(false);
     // const [isSuccess, setIsSuccess] = useState(false);
     // const [isConfirming, setisConfirming] = useState(false);
-
-
-    // const form = useForm<z.infer<typeof formSchema>>({
-    //     resolver: zodResolver(formSchema),
-    //     defaultValues: {
-    //         title: "",
-    //         description: "",
-    //     },
-    // })
-
-
-    const apiKey = process.env.NEXT_PUBLIC_BANDADA_ADMIN_API_KEY!;
     
 
     // https://github.com/bandada-infra/bandada/tree/main/libs/api-sdk
     // https://bandada.pse.dev/groups
     async function submitForm(event) {
+
         event.preventDefault();
-        const formdata = new FormData(event.target);
+        const formData = new FormData(event.target);
     
+        let title = formData.title;
+        let description = formData.description;
+
+        console.log(title)
+        console.log(description)
+        
+
+        if (title === undefined || description === undefined) {
+            return;
+        }
+
+        console.log("here")
+        
+        // Create a group 
         const groupCreateDetails = {
-            name: "Group 1",
-            description: "This is Group 1.",
+            name: title,
+            description: description,
             treeDepth: 16,
             fingerprintDuration: 3600
         }
         
         const group = await apiSdk.createGroup(groupCreateDetails, apiKey)
 
-        // group.then()
-
         console.log(group);
+
+        // Create an invite
+
+        // const groupId = "10402173435763029700781503965100"
+        // const apiKey = "70f07d0d-6aa2-4fe1-b4b9-06c271a641dc"
+
+        // const invite = await apiSdk.createInvite(groupId, apiKey)
+
+
     }
 
 
     return (
         <>
         
-            <form onSubmit={submitForm}
+            <form onSubmit={e => submitForm(e)}
                   className="bg-background relative min-h-screen isolate overflow-hidden">
                 
                 <HeaderLoggedIn>
@@ -108,9 +110,9 @@ export default function Community() {
                         className="mx-auto flex flex-col gap-8 items-center text-center max-w-6xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
                         
 
-                        <Input className="w-full" placeholder="Community name"/>
+                        <Input className="w-full" placeholder="Community name" name="title"/>
                         
-                        <Input className="w-full" placeholder="Community description"/>
+                        <Input className="w-full" placeholder="Community description" name="description"/>
 
                         <div className="flex gap-2 items-center">
                             <CircleUser className="h-5 w-5"/>
