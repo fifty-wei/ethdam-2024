@@ -19,7 +19,7 @@ export const wagmiChapterContract = {
 };
 
 export const wagmiBookContract = {
-  address: "0xB3C3973Fc4ebB7765aaD4217129c86E7eD54a1ee",
+  address: "0xfd2D32AD31038423015B9d830Ad735c43AdBe4Dc",
   abi: bookContract.abi,
 };
 
