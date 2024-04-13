@@ -89,10 +89,10 @@ export function ApplyToGiveFeedback({chapter, children, className = ""} : Props)
                         {
                             <>
                             {isPending && (
-                                <>We are waiting your confirmation</>
+                                <>Waiting…</>
                             )}
                             {isConfirming && (
-                                <>We are confirming your tx</>
+                                <>Confirming…</>
                             )}
                                 {/*{isLoading && ()}*/}
                             </>

@@ -20,7 +20,7 @@ export function Account() {
     // )
 
     return !! address && (
-        <div>
+        <div className="font-mono">
             {formatAddress(address.toString())}
         </div>
     )

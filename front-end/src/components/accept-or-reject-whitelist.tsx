@@ -25,7 +25,7 @@ export function AcceptOrRejectWhitelist({waitingList, className = "", size, vari
         useWaitForTransactionReceipt({
             hash,
         })
-    async function changeStatus(status: WhitelistStatus) {
+    function changeStatus(status: WhitelistStatus) {
         const res = writeContract({
             ...wagmiFeedbackContract,
             functionName: 'changeWhiteListStatus',
@@ -34,18 +34,18 @@ export function AcceptOrRejectWhitelist({waitingList, className = "", size, vari
 
         console.log({res});
 
-        toast({
-            title: status.toString().toUpperCase(),
-            description: `${status}`,
-            status: "success",
-        });
+        // toast({
+        //     title: status.toString().toUpperCase(),
+        //     description: `${status}`,
+        //     status: "success",
+        // });
     }
 
-    async function acceptWaitingList(){
+    function acceptWaitingList(){
         changeStatus(WhitelistStatus.Accepted);
     }
 
-    async function rejectWaitingList(){
+    function rejectWaitingList(){
         changeStatus(WhitelistStatus.Rejected);
     }
 

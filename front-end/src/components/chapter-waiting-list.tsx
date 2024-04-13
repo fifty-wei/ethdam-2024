@@ -6,6 +6,8 @@ import {Chapter} from "@/types/chapter";
 import {Button} from "@/components/ui/button";
 import {ButtonRejectWaitingList} from "@/components/button-reject-waiting-list";
 import {AcceptOrRejectWhitelist} from "@/components/accept-or-reject-whitelist";
+import {WhitelistStatus} from "@/types/feedback";
+import {CircleCheckBig, CircleX} from "lucide-react";
 
 const activity = [
     { id: 1, type: 'created', address: 'Alex Curren', person: { name: 'Chelsea Hagon' }, date: '7d ago', dateTime: '2023-01-23T10:32' },
@@ -42,7 +44,7 @@ export default function ChapterWaitingList({data, chapter}: Props) {
 
     return (
         <>
-            <ul role="list" className="space-y-6 mx-auto w-1/2 pb-24 sm:pb-24 max-w-2xl flex-shrink-0 lg:max-w-xl">
+            <ul role="list" className="space-y-6">
                 {data?.map((waitingList, index) => (
                     <li key={waitingList.id} className="relative flex gap-x-4">
                         <div
@@ -75,8 +77,10 @@ export default function ChapterWaitingList({data, chapter}: Props) {
                         {/*) : (*/}
                             <>
                                 <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-background">
-                                    {waitingList.status === 'paid' ? (
-                                        <CheckCircleIcon className="h-6 w-6 text-primary/50" aria-hidden="true" />
+                                    {waitingList.status === WhitelistStatus.Accepted ? (
+                                        <CircleCheckBig  className="h-6 w-6 text-green-500" aria-hidden="true" />
+                                    ) : waitingList.status === WhitelistStatus.Rejected ? (
+                                        <CircleX className="h-6 w-6 text-red-500" aria-hidden="true" />
                                     ) : (
                                         <div className="h-1.5 w-1.5 rounded-full bg-background ring-1 ring-gray-600" />
                                     )}
