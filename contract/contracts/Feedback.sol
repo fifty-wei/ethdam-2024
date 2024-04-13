@@ -11,8 +11,6 @@ import {EIP155Signer} from "@oasisprotocol/sapphire-contracts/contracts/EIP155Si
 import "@oasisprotocol/sapphire-contracts/contracts/Sapphire.sol";
 import '@oasisprotocol/sapphire-contracts/contracts/EthereumUtils.sol';
 
-// TODO :: Getter public / private part
-
 /**
  * @title Feedback Contract
  * @author FiftyWei Team @ ETH Amsterdam
@@ -160,7 +158,7 @@ contract Feedback is ERC721, AccessControl {
     }
 
     // check if a user is whitelisted for a specific chapter
-    function isWhitelistedUser(address _user, uint256 _chapterId) private view returns (bool) {
+    function isWhitelistedUser(address _user, uint256 _chapterId) public view returns (bool) {
         for (uint256 i = 0; i < chapterWaitingLists[_chapterId].length; i++) {
             WaitingListDetails memory waitingListData = waitingList[chapterWaitingLists[_chapterId][i]];
             if (waitingListData.owner == _user) {
