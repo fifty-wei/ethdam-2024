@@ -6,12 +6,18 @@ import {Base64} from "@openzeppelin/contracts/utils/Base64.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {Counters} from "@openzeppelin/contracts/utils/Counters.sol";
 import {IChapter} from "./interfaces/IChapter.sol";
+import {EIP155Signer} from "@oasisprotocol/sapphire-contracts/contracts/EIP155Signer.sol";
+
+import "@oasisprotocol/sapphire-contracts/contracts/Sapphire.sol";
+import '@oasisprotocol/sapphire-contracts/contracts/EthereumUtils.sol';
+
+// TODO :: Getter public / private part
 
 /**
  * @title Feedback Contract
  * @author FiftyWei Team @ ETH Amsterdam
  */ 
- contract Feedback is ERC721, AccessControl {
+contract Feedback is ERC721, AccessControl {
 
     enum FeedbackStatus {
         Waiting,
@@ -66,10 +72,72 @@ import {IChapter} from "./interfaces/IChapter.sol";
 
     // =========================== Constructor ==============================
 
+    address private pubkey;
+    bytes32 private secret;
+    uint64 private nonce;
+    
+
     constructor(address _chapterContractAddress) ERC721("FeedbackID", "FBI") {
         chapterIdContract = IChapter(_chapterContractAddress);
         nextFeedbackId.increment(); // we start the feedbackId at 1
         nextWaitingListId.increment(); // we start the waitingListId at 1
+
+        // Generate a pub/private key for the contract
+        (pubkey, secret) = EthereumUtils.generateKeypair();
+        nonce = 150;
+    }
+
+    
+    /// Create Gas less transaction
+    /// Free Tx to incicate people giving feedback without paying
+    function proxyCreateFeedback(
+        uint256 _chapterId, 
+        string memory _content, 
+        uint256 _rating
+    ) external view returns (bytes memory output) {
+
+        // Construct target proxy contract call
+        bytes memory innercall = abi.encodeWithSignature(
+            "createFeedback(uint256,string,uint256)", 
+            _chapterId, 
+            _content, 
+            _rating
+        );
+
+        // Build the target executed contract call with the inner one
+        bytes memory data = abi.encode(address(this), innercall);
+
+        // Call will invoke proxy().
+        return EIP155Signer.sign(pubkey, secret, EIP155Signer.EthTx({
+            nonce: nonce,
+            gasPrice: 100_000_000,
+            gasLimit: 250000,
+            to: address(this),
+            value: 0,
+            data: abi.encodeCall(this.proxy, data),
+            chainId: block.chainid
+            })
+        );
+    }
+
+    /// Execute gas less transaction
+    /// At the moment only create feedback is gas less
+    function proxy(bytes memory data) external payable {
+        (address addr, bytes memory subcallData) = abi.decode(
+            data,
+            (address, bytes)
+        );
+        (bool success, bytes memory outData) = addr.call{value: msg.value}(
+            subcallData
+        );
+        
+        if (!success) {
+            // Add inner-transaction meaningful data in case of error.
+            assembly {
+                revert(add(outData, 32), mload(outData))
+            }
+        }
+        nonce += 1;
     }
 
     // =========================== View functions ==============================
@@ -147,6 +215,10 @@ import {IChapter} from "./interfaces/IChapter.sol";
 
         nextFeedbackId.increment();
     }
+
+    // EIP155Signer
+
+
 
     // Accept a feedback
     function acceptFeedback(uint256 _feedbackId) public {
