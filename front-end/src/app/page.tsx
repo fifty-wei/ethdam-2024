@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 
 import {
@@ -18,6 +20,10 @@ import {
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { ContentWithBackground } from "@/components/content-with-background";
+import {useContractRead} from "wagmi";
+import {wagmiBookContract} from "@/config/wagmi";
+import {BookStatus} from "@/types/book";
+import {BookCover} from "@/components/book-cover";
 
 const primaryFeatures = [
   {
@@ -145,6 +151,18 @@ const footerNavigation = {
 };
 
 export default function Home() {
+
+  const { data, error, isError, isLoading } = useContractRead({
+    ...wagmiBookContract,
+    functionName: "getAllBooks",
+    args: [],
+  });
+
+  console.log({data});
+
+  const publishedOrPendingBooks = data?.filter((book: any) => book.status === BookStatus.Published || book.status === BookStatus.InProgress) || [];
+  const lastTwoBooks = publishedOrPendingBooks.length > 0 ? publishedOrPendingBooks.slice(-2) : [];
+
   return (
     <>
       <Header />
@@ -188,30 +206,16 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mx-auto w-1/2 gap-8 flex-shrink-1 grid items-center grid-cols-2 mt-16 flex max-w-2xl sm:mt-24 lg:ml-0 lg:mt-0 lg:max-w-none lg:flex-none">
-            <Link href="/book/13">
-              <figure className="relative aspect-[2/3]">
-                <Image
-                  className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
-                  src="https://images.unsplash.com/photo-1592496431122-2349e0fbc666?q=80&w=4212&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                  width={512}
-                  height={1024}
-                />
-              </figure>
-            </Link>
-            <Link href="/book/7">
-              <figure className="mt-32 relative aspect-[2/3]">
-                <Image
-                  className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
-                  src="https://images.unsplash.com/photo-1621827979802-6d778e161b28?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                  width={512}
-                  height={1024}
-                />
-              </figure>
-            </Link>
-          </div>
+          { lastTwoBooks.length > 1 && (
+            <div className="mx-auto w-1/2 gap-16 flex-shrink-1 grid items-center grid-cols-2 mt-16 flex max-w-2xl sm:mt-24 lg:ml-0 lg:mt-0 lg:max-w-none lg:flex-none">
+              <Link href={`/book/${lastTwoBooks[1].id}`}>
+                <BookCover book={lastTwoBooks[1]} />
+              </Link>
+              <Link className="mt-24" href={`/book/${lastTwoBooks[0].id}`}>
+                <BookCover book={lastTwoBooks[0]} />
+              </Link>
+            </div>
+          )}
         </section>
 
         {/* Feature section */}

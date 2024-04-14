@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { wagmiBookContract, wagmiChapterContract } from "@/config/wagmi";
 import { useAccount, useContractReads } from "wagmi";
 import { useParams } from "next/navigation";
-import { wagmiBookContract, wagmiChapterContract } from "@/config/wagmi";
 import { RefreshCw } from "lucide-react";
 import ModalAddChapter from "@/components/modal-add-chapter";
 import { ChapterItem } from "@/components/chapter-item";
