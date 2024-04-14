@@ -86,7 +86,7 @@ contract Book is ERC721, AccessControl {
     // =========================== User functions ==============================
 
     // Create a new Book
-    function createBook(string memory _name, string memory _description, BookStatus _status) public {
+    function createBook(string memory _name, string memory _description, BookStatus _status) public { // returns (uint256)
         uint256 bookId = nextBookId.current();
 
         BookDetails memory newBook = BookDetails({
@@ -103,6 +103,8 @@ contract Book is ERC721, AccessControl {
         nextBookId.increment();
 
         _mint(msg.sender, bookId);
+
+        // return bookId;
     }
 
     // Change the Book Status
