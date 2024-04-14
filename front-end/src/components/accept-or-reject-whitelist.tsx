@@ -19,20 +19,18 @@ interface Props extends ButtonProps {
     }
 }
 
-export function AcceptOrRejectWhitelist({waitingList, className = "", size, variant} : Props) {
+export function AcceptOrRejectWhitelist({waitingList, className = ""} : Props) {
     const { toast } = useToast();
-    const [tx, setTx] = useState(null);
-    const [isPending, setIsPending] = useState(false);
-
-    const { writeContract } = useSapphire();
 
     // const { data: hash, isPending, writeContract } = useContractWrite();
+    const { data: hash, isPending, writeContract } = useSapphire();
+
     const { isLoading: isConfirming, isSuccess: isConfirmed } =
         useWaitForTransactionReceipt({
-            hash: tx,
+            hash: hash,
         })
     async function changeStatus(status: WhitelistStatus) {
-        setIsPending(true);
+        // setIsPending(true);
 
         const txHash = await writeContract({
             ...wagmiFeedbackContract,
@@ -40,8 +38,8 @@ export function AcceptOrRejectWhitelist({waitingList, className = "", size, vari
             args: [BigInt(waitingList.chapterId), status],
         })
 
-        setTx(txHash);
-        setIsPending(false);
+        // setTx(txHash);
+        // setIsPending(false);
 
         // toast({
         //     title: status.toString().toUpperCase(),
@@ -63,7 +61,7 @@ export function AcceptOrRejectWhitelist({waitingList, className = "", size, vari
     }
 
     if( isConfirmed ){
-
+        redirect("/app");
     }
 
     return (
@@ -81,7 +79,7 @@ export function AcceptOrRejectWhitelist({waitingList, className = "", size, vari
                             Accept
                         </Button>
                         <Button size="sm" variant="link" disabled={isPending || isConfirming || isConfirmed} onClick={rejectWaitingList} className={className}>
-                        Reject
+                            Reject
                         </Button>
                     </>
                 )}
