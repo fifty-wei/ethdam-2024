@@ -35,7 +35,7 @@ export function AcceptOrRejectWhitelist({waitingList, className = ""} : Props) {
         const txHash = await writeContract({
             ...wagmiFeedbackContract,
             functionName: 'changeWhiteListStatus',
-            args: [BigInt(waitingList.chapterId), status],
+            args: [BigInt(waitingList.id), status],
         })
 
         // setTx(txHash);
@@ -61,7 +61,7 @@ export function AcceptOrRejectWhitelist({waitingList, className = ""} : Props) {
     }
 
     if( isConfirmed ){
-        redirect("/app");
+        // redirect("/app");
     }
 
     return (

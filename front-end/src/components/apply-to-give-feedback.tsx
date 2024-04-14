@@ -44,8 +44,6 @@ export function ApplyToGiveFeedback({
     args: [BigInt(chapter.id)],
   });
 
-  console.log({ data, isError, isLoading });
-
   // const { data: hash, isPending, writeContract } = useContractWrite();
   const { data: hash, isPending, writeContract } = useSapphire();
   const { isLoading: isConfirming, isSuccess: isConfirmed } =

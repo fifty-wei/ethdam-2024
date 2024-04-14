@@ -61,6 +61,13 @@ export function FormCreateChapter({bookId, onComplete, className=""} : Props) {
 
     async function onSubmit(e) {
         e.preventDefault();
+        
+        console.log([
+            BigInt(bookId),
+            form.getValues('name'),
+            form.getValues('publicContent'),
+            form.getValues('privateContent')
+        ]);
 
         await writeContract({
             ...wagmiChapterContract,

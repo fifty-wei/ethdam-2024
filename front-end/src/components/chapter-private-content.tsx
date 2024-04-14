@@ -15,6 +15,8 @@ interface Props {
 
 export function ChapterPrivateContent({chapter}: Props){
 
+    console.log({chapter});
+
     if( ! chapter?.privateContent ) {
         return null;
     }

@@ -5,7 +5,7 @@ import {Chapter} from "@/types/chapter";
 import {Book} from "@/types/book";
 import {useAccount, useContractRead} from "wagmi";
 import ChapterWaitingList from "@/components/chapter-waiting-list";
-import {wagmiFeedbackContract} from "@/config/wagmi";
+import {wagmiChapterContract, wagmiFeedbackContract} from "@/config/wagmi";
 import FormGiveFeedback from "@/components/form-give-feedback";
 import {WhitelistStatus} from "@/types/feedback";
 import {ChapterPrivateContent} from "@/components/chapter-private-content";
@@ -28,7 +28,13 @@ export function ChapterItem({chapter, book, index}: Props){
         args: [BigInt(chapter.id)],
     });
 
-    console.log({data, isError, isLoading});
+    const { data: toto } = useContractRead({
+        ...wagmiChapterContract,
+        functionName: 'getFeedbackManager',
+        args: [],
+    });
+
+    console.log({toto});
 
     const hasAccepted = useMemo(() => {
         if( ! data) {
@@ -36,9 +42,11 @@ export function ChapterItem({chapter, book, index}: Props){
         }
 
         return data.some(item => item.owner == address && item.status === WhitelistStatus.Accepted);
-    }, data);
+    }, [data]);
 
-    console.log({hasAccepted})
+    if( chapter.id == 22){
+        console.log({hasAccepted})
+    }
 
 
     // const hasAccepted = data?.some((item: any) => item.address !== address && item.status === WhitelistStatus.Accepted);

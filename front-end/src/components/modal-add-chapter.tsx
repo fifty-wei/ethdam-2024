@@ -44,7 +44,6 @@ export default function ModalAddChapter({bookId, onAddChapter}: Props) {
                 </DialogHeader>
                 <FormCreateChapter onComplete={(newChapter) => {
                     onAddChapter(newChapter);
-                    console.log('on complete');
                     ref.current.click();
                 }} bookId={bookId}/>
                 <DialogFooter className="sm:justify-start absolute bottom-6 left-6">
