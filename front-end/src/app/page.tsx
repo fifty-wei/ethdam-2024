@@ -23,7 +23,7 @@ const primaryFeatures = [
   {
     name: "Create, Connect, and Publish with Ease",
     description:
-      "Dive into a world where your words come alive, one chapter at a time. #Bhook is the groundbreaking platform for writers and creators seeking to revolutionize the way they engage with their audience.",
+      "Dive into a world where your words come alive, one chapter at a time. #B-hook is the groundbreaking platform for writers and creators seeking to revolutionize the way they engage with their audience.",
     href: "#",
     icon: BoltIcon,
   },
@@ -44,7 +44,7 @@ const primaryFeatures = [
   {
     name: "Innovative Publishing at Your Fingertips",
     description:
-      "With #Bhook, each chapter becomes a treasured NFT, opening doors to new possibilities in digital ownership and reader engagement. Begin your story with us today.",
+      "With #B-Hook, each chapter becomes a treasured NFT, opening doors to new possibilities in digital ownership and reader engagement. Begin your story with us today.",
     href: "#",
     icon: CakeIcon,
   },
@@ -164,11 +164,11 @@ export default function Home() {
             </div>
             <h1 className="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">
               Craft Your idea <br /> with your{" "}
-              <span className="text-amber-400">Bhook</span> community 🚀📚✨
+              <span className="text-amber-400">B-Hook</span> community 🚀📚✨
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-300">
               Publish, Engage, Innovate: Write and fund your books chapter by
-              chapter on #Bhook (or other creation). Share previews, gather
+              chapter on #B-Hook (or other creation). Share previews, gather
               feedback, and transform your words into exclusive NFTs for your
               community.
             </p>
@@ -224,7 +224,7 @@ export default function Home() {
               Your community, Your power
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-300">
-              Unique features make #Bhook the ideal platform for creators of
+              Unique features make #B-Hook the ideal platform for creators of
               code, books, videos, or music. Engage with your community and
               craft the perfect masterpieces that resonate with your audience.
             </p>
@@ -320,7 +320,7 @@ export default function Home() {
               </p>
               <p className="mt-6 text-lg leading-8 text-gray-300">
                 Manage your creations, engage with your community, and explore
-                new possibilities with #Bhook. Our platform is designed to help
+                new possibilities with #B-Hook. Our platform is designed to help
                 you create, connect, and publish with ease.
               </p>
             </div>
