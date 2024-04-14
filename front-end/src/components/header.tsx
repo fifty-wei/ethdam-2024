@@ -16,12 +16,12 @@ export function Header() {
   const { data: ensAvatar } = useEnsAvatar({ name: ensName! });
 
   return (
-    <header className="navbar  top-0 left-0 z-50 w-full border-stroke bg-white duration-300">
-      <div className="container relative lg:max-w-[1305px] lg:px-10">
+    <header className="navbar py-4 top-0 left-0 z-50 w-full border-stroke border-b border-muted bg-background text-foreground duration-300">
+      <div className="container relative lg:px-10">
         <div className="flex items-center justify-between">
           <div className="block py-4 lg:py-0">
             <Link href="/" className="block max-w-[145px] sm:max-w-[180px]">
-              <Logo className="text-yellow-400" width={40} height={40} />
+              <Logo width={40} height={40} />
             </Link>
           </div>
           <button
@@ -30,9 +30,9 @@ export function Header() {
             aria-label="navbarOpen"
             name="navbarOpen"
           >
-            <span className="block h-[2px] w-7 bg-black "></span>
-            <span className="block h-[2px] w-7 bg-black "></span>
-            <span className="block h-[2px] w-7 bg-black "></span>
+            <span className="block h-[2px] w-7 bg-foreground "></span>
+            <span className="block h-[2px] w-7 bg-foreground "></span>
+            <span className="block h-[2px] w-7 bg-foreground "></span>
           </button>
 
           <div
@@ -46,17 +46,17 @@ export function Header() {
               name="navbarClose"
               aria-label="navbarClose"
             >
-              <span className="block h-[2px] w-7 rotate-45 bg-black "></span>
-              <span className="-mt-[2px] block h-[2px] w-7 -rotate-45 bg-black "></span>
+              <span className="block h-[2px] w-7 rotate-45 bg-foreground "></span>
+              <span className="-mt-[2px] block h-[2px] w-7 -rotate-45 bg-foreground "></span>
             </button>
 
-            <nav className="fixed top-0 left-0 z-[999] flex h-screen w-full items-center justify-center bg-white bg-opacity-95 text-center backdrop-blur-sm lg:static lg:h-auto lg:w-max lg:bg-transparent lg:backdrop-blur-none ">
-              <ul className="items-center space-y-3 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-10">
+            <nav className="fixed top-0 left-0 z-[999] flex h-screen w-full items-center justify-center bg-background bg-opacity-95 text-center backdrop-blur-sm lg:static lg:h-auto lg:w-max lg:bg-transparent lg:backdrop-blur-none ">
+              <ul className="items-center space-y-3 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-4">
                 <li className="menu-item">
                   <Button
                     asChild
                     variant="link"
-                    className="menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7"
+                    className="menu-scroll inline-flex items-center text-base font-medium text-foreground"
                   >
                     <Link onClick={() => setIsOpen(false)} href="#features">
                       Features
@@ -67,7 +67,7 @@ export function Header() {
                   <Button
                     asChild
                     variant="link"
-                    className="menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7"
+                    className="menu-scroll inline-flex items-center text-base font-medium text-foreground"
                   >
                     <Link onClick={() => setIsOpen(false)} href="#bounties">
                       Bounties
@@ -78,7 +78,7 @@ export function Header() {
                   <Button
                     asChild
                     variant="link"
-                    className="menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7"
+                    className="menu-scroll inline-flex items-center text-base font-medium text-foreground"
                   >
                     <Link onClick={() => setIsOpen(false)} href="#dashboard">
                       Dashboard
@@ -89,7 +89,7 @@ export function Header() {
                   <Button
                     asChild
                     variant="link"
-                    className="menu-scroll inline-flex items-center text-base font-medium text-black hover:text-redpraha   lg:py-7"
+                    className="menu-scroll inline-flex items-center text-base font-medium text-foreground"
                   >
                     <Link onClick={() => setIsOpen(false)} href="#contact">
                       Contact
@@ -100,7 +100,7 @@ export function Header() {
             </nav>
           </div>
 
-          <div className="mr-8 flex items-center justify-end lg:mr-0 text-amber-400 ">
+          <div className="mr-8 flex items-center justify-end lg:mr-0 ">
             <ConnectWallet />
           </div>
         </div>

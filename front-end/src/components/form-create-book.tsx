@@ -94,10 +94,6 @@ export function FormCreateBook({className = ""} : Props) {
 
     const classes = cn(className || "", "space-y-8");
 
-    // const isPending = false;
-    // const isConfirming = false;
-    // const isConfirmed = false;
-
     if( isConfirmed && data.length > 0 ){
         redirect(`/book/${data[data.length - 1].id + BigInt(1)}`);
         return null;

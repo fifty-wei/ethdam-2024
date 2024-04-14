@@ -10,6 +10,7 @@ import { useState } from "react";
 
 import { ApiSdk } from "@bandada/api-sdk";
 import Link from "next/link";
+import {ContentWithBackground} from "@/components/content-with-background";
 
 export default function Community() {
 
@@ -44,7 +45,7 @@ export default function Community() {
 
         setTitle(title);
 
-        // Create a group 
+        // Create a group
         const groupCreateDetails = {
             name: title,
             description: description,
@@ -85,29 +86,26 @@ export default function Community() {
     return (
         (isForm ? (
             <>
-                <form onSubmit={e => submitForm(e)}
+                <form onSubmit={submitForm}
                     className="bg-background relative min-h-screen isolate overflow-hidden">
 
                     <HeaderLoggedIn>
                         <span className="font-semibold">Create a commmunity</span>
-                        <Button size="icon" className="absolute right-2">
-                            <Check className="h-5 w-5" />
-                            <span className="sr-only">Create a commmunity</span>
-                        </Button>
                     </HeaderLoggedIn>
 
-                    <div
-                        className="absolute left-[calc(50%-4rem)] top-10 -z-10 transform-gpu blur-3xl sm:left-[calc(50%-18rem)] lg:left-48 lg:top-[calc(50%-30rem)] xl:left-[calc(50%-24rem)]"
-                        aria-hidden="true"
-                    >
-                        <div
-                            className="aspect-[1108/632] w-[69.25rem] bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20"
-                            style={{
-                                clipPath:
-                                    'polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)',
-                            }}
-                        />
-                    </div>
+                    {/*<div*/}
+                    {/*    className="absolute left-[calc(50%-4rem)] top-10 -z-10 transform-gpu blur-3xl sm:left-[calc(50%-18rem)] lg:left-48 lg:top-[calc(50%-30rem)] xl:left-[calc(50%-24rem)]"*/}
+                    {/*    aria-hidden="true"*/}
+                    {/*>*/}
+                    {/*    <div*/}
+                    {/*        className="aspect-[1108/632] w-[69.25rem] bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20"*/}
+                    {/*        style={{*/}
+                    {/*            clipPath:*/}
+                    {/*                'polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)',*/}
+                    {/*        }}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
+                    <ContentWithBackground>
                     <div
                         className="mx-auto flex items-center justify-center max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40">
                         <div
@@ -155,20 +153,19 @@ export default function Community() {
 
                         </div>
                     </div>
+                    </ContentWithBackground>
                 </form>
 
             </>
         ) : (
             <>
-                <div className="bg-background relative min-h-screen isolate overflow-hidden">
+                <div className="relative min-h-screen isolate overflow-hidden">
 
                     <HeaderLoggedIn>
                         <span className="font-semibold">Create a commmunity</span>
-                        <Button size="icon" className="absolute right-2">
-                            <Check className="h-5 w-5" />
-                            <span className="sr-only">Create a commmunity</span>
-                        </Button>
                     </HeaderLoggedIn>
+
+                    <ContentWithBackground>
 
                     <div
                         className="mx-auto flex items-center justify-center max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40">
@@ -202,6 +199,9 @@ export default function Community() {
 
                         </div>
                     </div>
+
+                    </ContentWithBackground>
+
                 </div>
             </>
         ))
