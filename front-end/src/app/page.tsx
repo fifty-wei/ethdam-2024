@@ -389,7 +389,7 @@ export default function Home() {
           </div>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Your interested by our project
+              You are interested in our project.
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
               Please contact us at hello@fiftywei.co or visit our website below
