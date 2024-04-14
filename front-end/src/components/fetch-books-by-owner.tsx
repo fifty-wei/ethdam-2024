@@ -43,11 +43,11 @@ export default function FetchBooksByOwner({address, children}: Props) {
             {
                 children({
                     address: address,
-                    books: data.result.map((book: { id: string, name: string; description: string; }) => {
+                    books: data?.result?.map((book: { id: string, name: string; description: string; }) => {
                         id: book.id,
                         name: book.name,
                         description: book.description,
-                    }),
+                    }) || [],
                 })
             }
         </>
