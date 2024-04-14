@@ -12,6 +12,7 @@ import {ChapterPrivateContent} from "@/components/chapter-private-content";
 import {ChapterPaywall} from "@/components/chapter-paywall";
 import {ChapterPublicContent} from "@/components/chapter-public-content";
 import {ChapterHeader} from "@/components/chapter-header";
+import {useCallback, useMemo} from "react";
 
 interface Props {
     index: number;
@@ -29,8 +30,18 @@ export function ChapterItem({chapter, book, index}: Props){
 
     console.log({data, isError, isLoading});
 
-    const hasAccepted = data?.some((item: any) => item.address !== address && item.status === WhitelistStatus.Accepted);
+    const hasAccepted = useMemo(() => {
+        if( ! data) {
+            return false;
+        }
 
+        return data.some(item => item.owner == address && item.status === WhitelistStatus.Accepted);
+    }, data);
+
+    console.log({hasAccepted})
+
+
+    // const hasAccepted = data?.some((item: any) => item.address !== address && item.status === WhitelistStatus.Accepted);
     // console.log({hasApplied, hasAccepted});
 
     return (
@@ -49,7 +60,7 @@ export function ChapterItem({chapter, book, index}: Props){
             <div className="mx-auto w-1/2 pb-24 pt-10 sm:pb-24 lg:pt-40 max-w-2xl flex-shrink-0 flex flex-col gap-8 justify-center items-start lg:max-w-xl">
 
                 {
-                    chapter.owner === address && (
+                    chapter.owner == address && (
                         <ChapterWaitingList data={data} chapter={chapter} />
                     )
                 }

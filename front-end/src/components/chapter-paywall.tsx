@@ -8,6 +8,7 @@ import ChapterWaitingList from "@/components/chapter-waiting-list";
 import {wagmiFeedbackContract} from "@/config/wagmi";
 import FormGiveFeedback from "@/components/form-give-feedback";
 import {WhitelistStatus} from "@/types/feedback";
+import {useCallback, useMemo} from "react";
 
 interface Props {
     chapter: Chapter;
@@ -15,7 +16,18 @@ interface Props {
 
 export function ChapterPaywall({chapter, whitelist}: Props){
     const {address} = useAccount();
-    const hasApplied = whitelist?.some((item: any) => item.address !== address);
+    // const hasApplied = whitelist.some((item: any) => item.address !== address);
+    const hasApplied = useMemo(() => {
+        console.log({whitelist});
+
+        if( ! whitelist) {
+            return false;
+        }
+        return whitelist.some(item => item.owner == address);
+    }, [whitelist]);
+
+    console.log({hasApplied});
+
 
     return (
         <div className="mx-auto w-1/2 max-w-2xl flex-shrink-0 flex flex-col gap-4 justify-center items-center lg:max-w-xl">
