@@ -69,6 +69,17 @@ export function Header() {
                     variant="link"
                     className="menu-scroll inline-flex items-center text-base font-medium text-foreground"
                   >
+                    <Link onClick={() => setIsOpen(false)} href="/community">
+                      Community
+                    </Link>
+                  </Button>
+                </li>
+                <li className="menu-item">
+                  <Button
+                    asChild
+                    variant="link"
+                    className="menu-scroll inline-flex items-center text-base font-medium text-foreground"
+                  >
                     <Link onClick={() => setIsOpen(false)} href="#bounties">
                       Bounties
                     </Link>
