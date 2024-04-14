@@ -23,16 +23,16 @@ import {
     useConfig,
     usePublicClient,
     useAccount,
-    custom
+    custom, useContractReads, useContractRead
 } from "wagmi";
 import {Textarea} from "@/components/ui/textarea";
-import {wagmiBookContract, wagmiFeedbackContract} from "@/config/wagmi";
+import {wagmiBookContract, wagmiChapterContract, wagmiFeedbackContract} from "@/config/wagmi";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {Label} from "@/components/ui/label";
 import {useToast} from "@/components/ui/use-toast";
 import {redirect} from "next/navigation";
 import {useSapphire} from "@/hooks/useSapphireContractWrite";
-import {useEffect} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {wrap, wrapEthersSigner} from "@oasisprotocol/sapphire-paratime";
 import {sapphireTestnet} from "wagmi/chains";
 import {EIP1193Provider} from "viem";
@@ -58,7 +58,8 @@ interface Props {
 }
 
 export function FormCreateBook({className = ""} : Props) {
-    // const [loading, setLoading] = useState(false);
+    const [tx, setTx] = useState(null);
+    const [isPending, setIsPending] = useState(false);
     // const walletClient = useWalletClient();
     //
     // const walletClient = createWalletClient({
@@ -66,27 +67,10 @@ export function FormCreateBook({className = ""} : Props) {
     //     transport: custom(window.ethereum)
     // })
 
-    const { toast } = useToast();
-    const { signer } = useAccount();
-    // const { bookRepository } = useSapphireContract();
-
-    // useEffect(() => {
-    //     async function fetchAllBooks() {
-    //         const books = await bookRepository.getAllBooks();
-    //         console.log({books});
-    //     }
-    //     fetchAllBooks();
-    // }, []);
-
-    const { data: hash, isPending, writeContract } = useContractWrite({
-        chain: sapphireTestnet,
-        transport: custom(wrap(window.ethereum! as EIP1193Provider)),
+    const { writeContract } = useSapphire();
+    const{ isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+        hash: tx,
     });
-    // const { data: hash, isPending, writeContract } = useSapphire();
-    const { isLoading: isConfirming, isSuccess: isConfirmed } =
-        useWaitForTransactionReceipt({
-            hash,
-        })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -95,19 +79,20 @@ export function FormCreateBook({className = ""} : Props) {
             status: BookStatus.InProgress,
             description: "",
         },
-    })
+    });
+
+    const { data, error, isError } = useContractRead({
+        ...wagmiBookContract,
+        functionName: "getAllBooks",
+    });
 
     async function onSubmit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
 
-        // console.log(bookRepository.runner);
+        setIsPending(true);
 
-        // console.log({wagmiBookContract});
-
-        // const sapphireSigner = wrapEthersSigner(signer);
-
-        writeContract({
+        const txHash = await writeContract({
             ...wagmiBookContract,
             functionName: 'createBook',
             args: [
@@ -115,7 +100,10 @@ export function FormCreateBook({className = ""} : Props) {
                 formData.get('description'),
                 formData.get('status')
             ],
-        })
+        });
+
+        setTx(txHash);
+        setIsPending(false);
 
         // try{
         //     const tx = await bookRepository.createBook(
@@ -138,10 +126,9 @@ export function FormCreateBook({className = ""} : Props) {
 
     // const onSubmit = data => console.log(data);
 
-    // console.log({isPending});
-    // console.log({isConfirming});
-    // console.log({isConfirmed});
-    // console.log({hash});
+    console.log({isPending});
+    console.log({isConfirming});
+    console.log({isConfirmed});
 
     const classes = cn(className || "", "space-y-8");
 
@@ -149,8 +136,8 @@ export function FormCreateBook({className = ""} : Props) {
     // const isConfirming = false;
     // const isConfirmed = false;
 
-    if( isConfirmed ){
-        redirect('/book/1')
+    if( isConfirmed && data.length > 0 ){
+        redirect(`/book/${data[data.length - 1].id + BigInt(1)}`);
         return null;
     }
 

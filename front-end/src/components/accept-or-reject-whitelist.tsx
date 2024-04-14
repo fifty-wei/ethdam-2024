@@ -6,6 +6,8 @@ import {wagmiFeedbackContract} from "@/config/wagmi";
 import {useContractRead, useContractWrite, useReadContract, useWaitForTransactionReceipt} from "wagmi";
 import {useToast} from "@/components/ui/use-toast";
 import {WhitelistStatus} from "@/types/feedback";
+import {useState} from "react";
+import {useSapphire} from "@/hooks/useSapphireContractWrite";
 
 interface Props extends ButtonProps {
     className?: string;
@@ -19,20 +21,27 @@ interface Props extends ButtonProps {
 
 export function AcceptOrRejectWhitelist({waitingList, className = "", size, variant} : Props) {
     const { toast } = useToast();
+    const [tx, setTx] = useState(null);
+    const [isPending, setIsPending] = useState(false);
 
-    const { data: hash, isPending, writeContract } = useContractWrite();
+    const { writeContract } = useSapphire();
+
+    // const { data: hash, isPending, writeContract } = useContractWrite();
     const { isLoading: isConfirming, isSuccess: isConfirmed } =
         useWaitForTransactionReceipt({
-            hash,
+            hash: tx,
         })
-    function changeStatus(status: WhitelistStatus) {
-        const res = writeContract({
+    async function changeStatus(status: WhitelistStatus) {
+        setIsPending(true);
+
+        const txHash = await writeContract({
             ...wagmiFeedbackContract,
             functionName: 'changeWhiteListStatus',
             args: [BigInt(waitingList.chapterId), status],
         })
 
-        console.log({res});
+        setTx(txHash);
+        setIsPending(false);
 
         // toast({
         //     title: status.toString().toUpperCase(),
@@ -41,16 +50,20 @@ export function AcceptOrRejectWhitelist({waitingList, className = "", size, vari
         // });
     }
 
-    function acceptWaitingList(){
-        changeStatus(WhitelistStatus.Accepted);
+    async function acceptWaitingList(){
+        await changeStatus(WhitelistStatus.Accepted);
     }
 
-    function rejectWaitingList(){
-        changeStatus(WhitelistStatus.Rejected);
+    async function rejectWaitingList(){
+        await changeStatus(WhitelistStatus.Rejected);
     }
 
     if (waitingList.status !== WhitelistStatus.Pending || isConfirmed){
         return null
+    }
+
+    if( isConfirmed ){
+
     }
 
     return (

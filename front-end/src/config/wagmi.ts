@@ -1,19 +1,10 @@
 import {http, createConfig, custom} from "wagmi";
-import {Chain, mainnet, sapphireTestnet, sepolia} from "wagmi/chains";
-// import { publicProvider } from 'wagmi/providers/public';
-// import { InjectedConnector } from 'wagmi/connectors/injected'
-// import { configureChains } from '@wagmi/core'
+import {mainnet, sapphireTestnet, sepolia} from "wagmi/chains";
 
 
 import chapterContract from "@/abi/Chapter.json";
 import bookContract from "@/abi/Book.json";
 import feedbackContract from "@/abi/Feedback.json";
-
-// import { CoolWalletOptions, CoolWalletProvider } from 'cool-wallet-sdk'
-import * as sapphire from '@oasisprotocol/sapphire-paratime';
-import {createConnector} from "@wagmi/core";
-import {metaMask, walletConnect} from "@wagmi/connectors";
-import {EIP1193Provider} from "viem";
 
 export const wagmiConfig = createConfig({
   chains: [sapphireTestnet],
@@ -23,43 +14,6 @@ export const wagmiConfig = createConfig({
     [sapphireTestnet.id]: http(),
   },
 });
-
-// const sapphireProvider = sapphire.wrap(publicProvider());
-// }
-
-// const connector = walletConnect({
-//     chains: [mainnet, sapphireTestnet],
-// });
-//
-// const sapphireConnector = createConnector((config) => ({
-//     ...connector,
-//     id: 'sapphireSDK',
-//     name: 'Sapphire',
-//     type: metaMask.type,
-//     async getProvider(chain: Chain) {
-//         console.log('chain', chain);
-//         // const chainId = connector.getChain()
-//         if (chain.id === sapphireTestnet.id) {
-//             const provider = await connector.getProvider(chain);
-//             return sapphire.wrap(provider);
-//         }
-//         // throw new Error(`Unsupported chain ${chain.id}`);
-//     },
-// }));
-//
-// const { chains, publicClient } = configureChains(
-//     chains: [mainnet, sapphireTestnet],
-//     [sapphire.wrap(publicProvider())],
-// )
-//
-// export const wagmiConfig = createConfig({
-//     connectors: [new InjectedConnector({ chains })],
-//     transports: {
-//         [mainnet.id]: http(),
-//         [sapphireTestnet.id]: http(),
-//     },
-//     publicClient,
-// });
 
 export const wagmiChapterContract = {
   // Sepolia

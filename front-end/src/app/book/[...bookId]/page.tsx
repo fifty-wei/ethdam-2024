@@ -11,10 +11,13 @@ import {sapphireTestnet} from "wagmi/chains";
 import {wrap} from "@oasisprotocol/sapphire-paratime";
 import {EIP1193Provider} from "viem";
 import {useSapphire} from "@/hooks/useSapphireContractWrite";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {Button} from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   const { bookId } = useParams<{ bookId: string }>();
+  const [newChapters, setNewChapters] = useState([]);
   const { address } = useAccount();
   // const { getContractReads } = useSapphire();
 
@@ -54,8 +57,6 @@ export default function Home() {
     ],
   });
 
-  console.log({error});
-
   if (isLoading) {
     return (
       <div className="min-h-screen min-w-screen flex flex-col justify-center items-center">
@@ -71,30 +72,15 @@ export default function Home() {
   }
 
   if (isError) {
-    console.log(isError);
-    console.log(data);
     return (
-      <div className="min-h-screen min-w-screen">Error: {isError.message}</div>
+      <div className="min-h-screen min-w-screen">Error: {error.message}</div>
     );
   }
 
-  console.log({ data });
   const [chaptersData, bookData] = data || [];
-
-  console.log({ chaptersData });
 
   const book = bookData.result;
   const chapters = chaptersData.result;
-
-  // const book = {
-  //   title: "The Art of War",
-  //   description: "The Art of War is an ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics. For almost 1,500 years it was the lead text in an anthology that would be formalised as the Seven Military Classics by Emperor Shenzong of Song in 1080. The Art of War remains the most influential strategy text in East Asian warfare and has influenced both Eastern and Western military thinking, business tactics, legal strategy, lifestyles and beyond."
-  // }
-
-  // const episodes = [];
-
-  console.log({ book });
-  console.log({ chapters });
 
   if (bookData.status !== "success") {
     console.log(bookData.error);
@@ -103,6 +89,15 @@ export default function Home() {
         {bookData.error.toString()}
       </div>
     );
+  }
+
+  function handleNewChapter(chapter){
+    const newChapter = {
+      ...chapter,
+      id: newChapters.length > 0 ? newChapters[newChapters.length - 1].id + BigInt(1) : chapters[chapters.length - 1].id + BigInt(1),
+      bookId: bookId
+    }
+    setNewChapters([...chapters, newChapter])
   }
 
   return (
@@ -174,13 +169,17 @@ export default function Home() {
               {book.description}
             </p>
 
-            {book.owner === address && <ModalAddChapter />}
+            {book.owner === address && <ModalAddChapter bookId={bookId} onAddChapter={ handleNewChapter } />}
 
             <ul className="flex flex-col gap-2">
               {chapters.map((chapter, index) => {
                 return (
-                  <li key={chapter.id} className="">
-                    {index}. {chapter.name}
+                  <li key={chapter.id}>
+                    <Button asChild variant="link">
+                      <Link href={`#${chapter.id}-${chapter.name.toLowerCase().replace(' ', '-').replace('#', '')}`}>
+                        {index + 1}. {chapter.name}
+                      </Link>
+                    </Button>
                   </li>
                 );
               })}
@@ -188,7 +187,7 @@ export default function Home() {
           </div>
         </div>
 
-        {chapters.map((chapter, index) => {
+        {[...chapters, ...newChapters].map((chapter, index) => {
           return (
             <ChapterItem
               key={chapter.id}

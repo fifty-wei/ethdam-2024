@@ -60,7 +60,7 @@ export function ApplyToGiveFeedback({chapter, children, className = ""} : Props)
     async function handleClick() {
         console.log('Apply to Give Feedback clicked')
 
-        const res = writeContract({
+        const res = await writeContract({
             ...wagmiFeedbackContract,
             functionName: 'applyToWhitelist',
             args: [BigInt(chapter.id)],
@@ -74,7 +74,7 @@ export function ApplyToGiveFeedback({chapter, children, className = ""} : Props)
         console.log({res});
     }
 
-    const classes = cn(className || "", "h-full border-2 rounded-none absolute left-0 z-50")
+    const classes = cn(className || "", "border-2 rounded-none")
 
     if (isConfirmed){
         return null

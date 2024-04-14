@@ -109,10 +109,13 @@ export function useSapphire(){
       transport: custom(wrap(window.ethereum! as EIP1193Provider)),
   })
 
-  console.log(walletClient)
-  console.log(walletClient.data)
+  // console.log(walletClient)
+  // console.log(walletClient.data)
 
   return {
     ...walletClient.data,
+    isPending: walletClient.isPending,
+    isLoading: walletClient.isLoading,
+    isSuccess: walletClient.isSuccess,
   }
 }

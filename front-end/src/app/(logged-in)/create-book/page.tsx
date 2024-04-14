@@ -12,10 +12,6 @@ export default function CreateBookPage() {
                 <div size="icon" className="absolute right-4">
                     <Account />
                 </div>
-                {/*<Button size="icon" className="absolute right-2">*/}
-                {/*    <Check className="h-5 w-5"/>*/}
-                {/*    <span className="sr-only">Create book</span>*/}
-                {/*</Button>*/}
             </HeaderLoggedIn>
 
             <div
