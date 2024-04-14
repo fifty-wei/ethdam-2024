@@ -1,111 +1,59 @@
-# Oasis Starter dApp
+#PROJECT NAME
+B-HOOK
 
-This is a skeleton for confidential Oasis dApps:
+---
 
-- `backend` contains the example MessageBox solidity contract, deployment and
-  testing utils.
-- `frontend` contains a Vue-based web application communicating with the
-  backend smart contract.
+#DESCRIPTION OF THE PROJECT
 
-This monorepo is set up for `pnpm`. Install dependencies by running:
+🚀 Welcome to #B-hook: Your Gateway to Creative Expression! 📚✨
 
-```sh
-pnpm install
-```
+Bhook proposed a new interactive way to create a book or other content creation (videos, music, art etc..). You can write a book chapter by chapter and get feedbacks from your community. This allow you to introduce your work to other people, and get funds while writing your books.
 
-## Backend
+📝 When publishing a new chapter the author have the possibility to show a public preview of the chapter. If a user want to get access to the full chapter, he can register as a reviewer and the author can in another step grant him access to the full chapter. Then, the user can read the full chapter, create a feedback and share it with the author. Finally, the author can see the review of the reader, and gives a score to it.
 
-Move to the `backend` folder and build smart contracts:
+🔒 Tech-Savvy Publishing: Each Book & chapter will be represented as an NFT. We are using Oasis allowing us to have public and private NFT information. On the public side, we will have the public preview that anyone can see. And, we will have the private text representing the full chapter that only the approved reviewer or sponsor can see.
 
-```sh
-pnpm build
-```
+🤝 Bandada Integration: Harness the power of community by creating specialized groups and extending invitations to specific communities via a simple link. This tailored approach seamlessly connects you with niche audiences.
 
-Next, deploy the contract.
+---
 
-### Basic Local Hardhat Deployment
+#DISCORD AND TELEGRAM USER NAME : (team contact to share the judging details)
+After submission:Martin Leclercq / Discord : akuma9640 / TG : @akugoneRegis Graptin / TG : @regis_telegram
 
-Start the hardhat node:
+---
 
-```sh
-npx hardhat node
-```
+#REPOSITORY WITH PROJECT'S CODE
+https://github.com/fifty-wei/ethdam-2024
 
-Deploy smart contracts to that local network:
+---
 
-```sh
-npx hardhat deploy --network localhost
-```
+#VIDEO DEMO (3 min max)
+xxxxxxxxxxxxx
 
-The deployed MessageBox address will be reported. Remember it and store it
-inside the `frontend` folder's `.env.development`, for example:
+---
 
-```
-VITE_MESSAGE_BOX_ADDR=0x5FbDB2315678afecb367f032d93F642f64180aa3
-```
+#THE CONTRACT address(es) or website URLs of your deployed application, either on a testnet of your choice or mainnet of a platform of choice. 📂📂 (NOT mandatory) :
 
-### Deploying to Sapphire Localnet, Testnet and Mainnet
+> > Vercel deployment
+> > https://ethdam-2024.vercel.app/
 
-Prepare your hex-encoded private key and store it as an environment variable:
+> > Contracts addresses deployed on Oasis
+> > "Book": "0xefe86329296Bf2f2fB3C4fF5545Dca8736fB2e71"
+> > "Chapter": "0x7F67316a754f3953617FEA14227ccC4E018f4E7b",  
+> > "Feedback": "0x32Cf4dCFfdc6Ed1a045f212Eacc7ed8a1E94f530"
 
-```shell
-export PRIVATE_KEY=0x...
-```
+> > ReadMe
+> > xxxxxxxxxxxx
 
-To deploy the contracts to the [Sapphire Localnet], Testnet or Mainnet, use the
-following commands respectively:
+---
 
-```shell
-npx hardhat deploy --network sapphire-localnet
-npx hardhat deploy --network sapphire-testnet
-npx hardhat deploy --network sapphire
-```
+#BOUNTIES
 
-[Sapphire Localnet]: https://github.com/oasisprotocol/oasis-web3-gateway/pkgs/container/sapphire-dev
+=> OASIS
+Github implementation link
+We utilized Oasis to enable creators to share both a public and a private segment of their creation. Once users are validated by the creator and possess a specific NFT, they gain access to the private portion of the creation.
+The best part is that we implement the Oasis Gasless feature to provide a seamless experience, allowing reviewers to leave feedback without paying anything.
 
-## Frontend
-
-After you compiled the backend, updated `.env.development` with the
-corresponding address and a chain ID, move to the `frontend` folder, compile
-and Hot-Reload frontend for Development:
-
-```sh
-pnpm dev
-```
-
-Navigate to http://localhost:5173 with your browser to view your dApp. Some
-browsers (e.g. Brave) may require https connection and a CA-signed certificate
-to access the wallet. In this case, read the section below on how to properly
-deploy your dApp.
-
-You can use one of the deployed test accounts and associated private key with
-MetaMask. If you use the same MetaMask accounts on fresh local networks such as
-Hardhat Node, Foundry Anvil or sapphire-dev docker image, don't forget to
-*clear your account's activity* each time or manually specify the correct
-account nonce.
-
-### Frontend Deployment
-
-You can build assets for deployment by running:
-
-```sh
-pnpm build
-```
-
-`dist` folder will contain the generated HTML files that can be hosted.
-
-#### Different Website Base
-
-If you are running dApp on a non-root base dir, add
-
-```
-BASE_DIR=/my/public/path
-```
-
-to `.env.production` and bundle the app with
-
-```
-pnpm build-only --base=/my/public/path/
-```
-
-Then copy the `dist` folder to a place of your `/my/public/path` location.
+=> BANDADA
+Github implementation link
+We employ Bandada to enable content creators to invite users using a uniquely generated Bandada link. Guests can access a portion of the creator's content for free through this link.

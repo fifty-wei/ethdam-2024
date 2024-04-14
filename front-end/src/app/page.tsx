@@ -189,7 +189,7 @@ export default function Home() {
           </div>
 
           <div className="mx-auto w-1/2 gap-8 flex-shrink-1 grid items-center grid-cols-2 mt-16 flex max-w-2xl sm:mt-24 lg:ml-0 lg:mt-0 lg:max-w-none lg:flex-none">
-            <Link href="/book/1">
+            <Link href="/book/13">
               <figure className="relative aspect-[2/3]">
                 <Image
                   className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
@@ -200,7 +200,7 @@ export default function Home() {
                 />
               </figure>
             </Link>
-            <Link href="/book/1">
+            <Link href="/book/7">
               <figure className="mt-32 relative aspect-[2/3]">
                 <Image
                   className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
