@@ -49,7 +49,7 @@ export default function ModalAddChapter({bookId, onAddChapter}: Props) {
                 }} bookId={bookId}/>
                 <DialogFooter className="sm:justify-start absolute bottom-6 left-6">
                     <DialogClose asChild>
-                        <Button ref={ref} type="button" variant="secondary">
+                        <Button ref={ref} type="button" variant="link">
                             Cancel
                         </Button>
                     </DialogClose>

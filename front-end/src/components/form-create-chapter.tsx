@@ -44,12 +44,10 @@ interface Props {
 }
 
 export function FormCreateChapter({bookId, onComplete, className=""} : Props) {
-    const [tx, setTx] = useState(null);
-    const [isPending, setIsPending] = useState(false);
-
-    const { writeContract } = useSapphire();
+    // const { data: hash, isPending, writeContract } = useContractWrite();
+    const { data: hash, isPending, writeContract } = useSapphire();
     const{ isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
-        hash: tx,
+        hash: hash,
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -63,11 +61,8 @@ export function FormCreateChapter({bookId, onComplete, className=""} : Props) {
 
     async function onSubmit(e) {
         e.preventDefault();
-        const formData = new FormData(e.target);
 
-        setIsPending(true);
-
-        const txHash = await writeContract({
+        await writeContract({
             ...wagmiChapterContract,
             functionName: 'createChapter',
             args: [
@@ -77,17 +72,9 @@ export function FormCreateChapter({bookId, onComplete, className=""} : Props) {
                 form.getValues('privateContent')
             ],
         })
-
-        setTx(txHash);
-        setIsPending(false);
     }
 
     const classes = cn(className || "", "space-y-8 w-full flex flex-col items-end");
-
-    console.log({isConfirmed});
-    console.log({isConfirming});
-    console.log({isPending});
-    console.log({tx});
 
     useEffect(() => {
         if(!isConfirmed){
@@ -103,8 +90,6 @@ export function FormCreateChapter({bookId, onComplete, className=""} : Props) {
                 privateContent: form.getValues('privateContent'),
             });
         }
-
-        setTx(null);
     }, [isConfirmed]);
 
     return (

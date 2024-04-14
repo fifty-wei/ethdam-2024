@@ -58,18 +58,10 @@ interface Props {
 }
 
 export function FormCreateBook({className = ""} : Props) {
-    const [tx, setTx] = useState(null);
-    const [isPending, setIsPending] = useState(false);
-    // const walletClient = useWalletClient();
-    //
-    // const walletClient = createWalletClient({
-    //     chain: mainnet,
-    //     transport: custom(window.ethereum)
-    // })
-
-    const { writeContract } = useSapphire();
+    // const { data: hash, isPending, writeContract } = useContractWrite();
+    const { data: hash, isPending, writeContract } = useSapphire();
     const{ isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
-        hash: tx,
+        hash: hash,
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -88,47 +80,17 @@ export function FormCreateBook({className = ""} : Props) {
 
     async function onSubmit(e) {
         e.preventDefault();
-        const formData = new FormData(e.target);
 
-        setIsPending(true);
-
-        const txHash = await writeContract({
+        await writeContract({
             ...wagmiBookContract,
             functionName: 'createBook',
             args: [
-                formData.get('title'),
-                formData.get('description'),
-                formData.get('status')
+                form.getValues('title'),
+                form.getValues('description'),
+                form.getValues('status')
             ],
         });
-
-        setTx(txHash);
-        setIsPending(false);
-
-        // try{
-        //     const tx = await bookRepository.createBook(
-        //         formData.get('title'),
-        //         formData.get('description'),
-        //         formData.get('status')
-        //     );
-        //     console.log({tx});
-        // } catch (e) {
-        //     console.error(e);
-        // }
-        // const tx = await bookRepository.createBook(
-        //     formData.get('title'),
-        //     formData.get('description'),
-        //     formData.get('status')
-        // );
-        //
-        // console.log({tx});
     }
-
-    // const onSubmit = data => console.log(data);
-
-    console.log({isPending});
-    console.log({isConfirming});
-    console.log({isConfirmed});
 
     const classes = cn(className || "", "space-y-8");
 
@@ -163,11 +125,6 @@ export function FormCreateBook({className = ""} : Props) {
                         </FormItem>
                     )}
                 />
-
-                {/*<div className="flex gap-2 items-center">*/}
-                {/*    <CircleUser className="h-5 w-5"/>*/}
-                {/*    <Account/>*/}
-                {/*</div>*/}
 
                 <FormField
                     control={form.control}

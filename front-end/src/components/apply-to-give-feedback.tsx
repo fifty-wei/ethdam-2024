@@ -21,6 +21,7 @@ import {useContractRead, useContractWrite, useReadContract, useWaitForTransactio
 import {PropsWithChildren, useEffect} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import {Chapter} from "@/types/chapter";
+import {useSapphire} from "@/hooks/useSapphireContractWrite";
 
 interface Props extends PropsWithChildren {
     className?: string;
@@ -36,7 +37,8 @@ export function ApplyToGiveFeedback({chapter, children, className = ""} : Props)
 
     console.log({data, isError, isLoading});
 
-    const { data: hash, isPending, writeContract } = useContractWrite();
+    // const { data: hash, isPending, writeContract } = useContractWrite();
+    const { data: hash, isPending, writeContract } = useSapphire();
     const { isLoading: isConfirming, isSuccess: isConfirmed } =
         useWaitForTransactionReceipt({
             hash,

@@ -9,6 +9,7 @@ import {useContractWrite, useWaitForTransactionReceipt} from "wagmi";
 import {wagmiFeedbackContract} from "@/config/wagmi";
 import {useToast} from "@/components/ui/use-toast";
 import {Chapter} from "@/types/chapter";
+import {useSapphire} from "@/hooks/useSapphireContractWrite";
 
 interface Props {
     chapter: Chapter;
@@ -17,7 +18,8 @@ interface Props {
 export default function FormGiveFeedback({chapter}: Props) {
     const { toast } = useToast();
 
-    const { data: hash, isPending, writeContract } = useContractWrite();
+    // const { data: hash, isPending, writeContract } = useContractWrite();
+    const { data: hash, isPending, writeContract } = useSapphire();
     const { isLoading: isConfirming, isSuccess: isConfirmed } =
         useWaitForTransactionReceipt({
             hash,
@@ -37,7 +39,7 @@ export default function FormGiveFeedback({chapter}: Props) {
         e.preventDefault();
         const formData = new FormData(e.target);
 
-        const res = writeContract({
+        const res = await writeContract({
             ...wagmiFeedbackContract,
             functionName: 'createFeedback',
             args: [
