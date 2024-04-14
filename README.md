@@ -16,21 +16,18 @@ Bhook proposed a new interactive way to create a book or other content creation 
 
 🤝 Bandada Integration: Harness the power of community by creating specialized groups and extending invitations to specific communities via a simple link. This tailored approach seamlessly connects you with niche audiences.
 
-## VIDEO DEMO (3 min max)
-
-xxxxxxxxxxxxx
-
 ---
-
-## Contrtacts address(es) & website URLs
 
 ## Vercel deployment
 
 https://ethdam-2024.vercel.app/
 
-##Contracts addresses deployed on Oasis
+## Contracts addresses deployed on Oasis
+
 "Book": "0xefe86329296Bf2f2fB3C4fF5545Dca8736fB2e71"
-"Chapter": "0x7F67316a754f3953617FEA14227ccC4E018f4E7b",  
+
+"Chapter": "0x7F67316a754f3953617FEA14227ccC4E018f4E7b",
+
 "Feedback": "0x32Cf4dCFfdc6Ed1a045f212Eacc7ed8a1E94f530"
 
 ---
@@ -58,7 +55,7 @@ npm run dev
 
 ---
 
-# DISCORD AND TELEGRAM USER NAME :
+## DISCORD AND TELEGRAM USER NAME :
 
 Martin / Discord : akuma9640 / TG : @akugone
 Regis / TG : @regis_telegram
