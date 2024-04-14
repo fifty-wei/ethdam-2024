@@ -1,9 +1,10 @@
-#PROJECT NAME
+# PROJECT NAME
+
 B-HOOK
 
 ---
 
-#DESCRIPTION OF THE PROJECT
+# DESCRIPTION OF THE PROJECT
 
 🚀 Welcome to #B-hook: Your Gateway to Creative Expression! 📚✨
 
@@ -15,23 +16,16 @@ Bhook proposed a new interactive way to create a book or other content creation 
 
 🤝 Bandada Integration: Harness the power of community by creating specialized groups and extending invitations to specific communities via a simple link. This tailored approach seamlessly connects you with niche audiences.
 
----
+# VIDEO DEMO (3 min max)
 
-#DISCORD AND TELEGRAM USER NAME :
-Martin / Discord : akuma9640 / TG : @akugone
-Regis / TG : @regis_telegram
-Florian / Discord : @truchot
-
----
-
-#VIDEO DEMO (3 min max)
 xxxxxxxxxxxxx
 
 ---
 
-#THE CONTRACT address(es) or website URLs of your deployed application, either on a testnet of your choice or mainnet of a platform of choice. 📂📂 (NOT mandatory) :
+# THE CONTRACT address(es) or website URLs of your deployed application, either on a testnet of your choice or mainnet of a platform of choice. 📂📂 (NOT mandatory) :
 
-##Vercel deployment
+## Vercel deployment
+
 https://ethdam-2024.vercel.app/
 
 ##Contracts addresses deployed on Oasis
@@ -41,7 +35,7 @@ https://ethdam-2024.vercel.app/
 
 ---
 
-#BOUNTIES
+# BOUNTIES
 
 => OASIS
 Github implementation link
@@ -52,6 +46,22 @@ The best part is that we implement the Oasis Gasless feature to provide a seamle
 Github implementation link
 We employ Bandada to enable content creators to invite users using a uniquely generated Bandada link. Guests can access a portion of the creator's content for free through this link.
 
-#BOUNTIES
+# INSTALLATION
 
+fill the .env file with the following variables
+and run the following commands
+
+```
 npm install
+npm run dev
+```
+
+---
+
+# DISCORD AND TELEGRAM USER NAME :
+
+Martin / Discord : akuma9640 / TG : @akugone
+Regis / TG : @regis_telegram
+Florian / Discord : @truchot
+
+---
