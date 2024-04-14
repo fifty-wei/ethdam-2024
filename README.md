@@ -17,13 +17,10 @@ Bhook proposed a new interactive way to create a book or other content creation 
 
 ---
 
-#DISCORD AND TELEGRAM USER NAME : (team contact to share the judging details)
-After submission:Martin Leclercq / Discord : akuma9640 / TG : @akugoneRegis Graptin / TG : @regis_telegram
-
----
-
-#REPOSITORY WITH PROJECT'S CODE
-https://github.com/fifty-wei/ethdam-2024
+#DISCORD AND TELEGRAM USER NAME :
+Martin / Discord : akuma9640 / TG : @akugone
+Regis / TG : @regis_telegram
+Florian / Discord : @truchot
 
 ---
 
@@ -34,16 +31,13 @@ xxxxxxxxxxxxx
 
 #THE CONTRACT address(es) or website URLs of your deployed application, either on a testnet of your choice or mainnet of a platform of choice. 📂📂 (NOT mandatory) :
 
-> > Vercel deployment
-> > https://ethdam-2024.vercel.app/
+##Vercel deployment
+https://ethdam-2024.vercel.app/
 
-> > Contracts addresses deployed on Oasis
-> > "Book": "0xefe86329296Bf2f2fB3C4fF5545Dca8736fB2e71"
-> > "Chapter": "0x7F67316a754f3953617FEA14227ccC4E018f4E7b",  
-> > "Feedback": "0x32Cf4dCFfdc6Ed1a045f212Eacc7ed8a1E94f530"
-
-> > ReadMe
-> > xxxxxxxxxxxx
+##Contracts addresses deployed on Oasis
+"Book": "0xefe86329296Bf2f2fB3C4fF5545Dca8736fB2e71"
+"Chapter": "0x7F67316a754f3953617FEA14227ccC4E018f4E7b",  
+"Feedback": "0x32Cf4dCFfdc6Ed1a045f212Eacc7ed8a1E94f530"
 
 ---
 
@@ -57,3 +51,7 @@ The best part is that we implement the Oasis Gasless feature to provide a seamle
 => BANDADA
 Github implementation link
 We employ Bandada to enable content creators to invite users using a uniquely generated Bandada link. Guests can access a portion of the creator's content for free through this link.
+
+#BOUNTIES
+
+npm install
