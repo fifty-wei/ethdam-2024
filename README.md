@@ -16,10 +16,6 @@ Bhook proposed a new interactive way to create a book or other content creation 
 
 🤝 Bandada Integration: Harness the power of community by creating specialized groups and extending invitations to specific communities via a simple link. This tailored approach seamlessly connects you with niche audiences.
 
-## VIDEO DEMO (3 min max)
-
-xxxxxxxxxxxxx
-
 ---
 
 ## Contrtacts address(es) & website URLs
