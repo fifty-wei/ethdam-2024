@@ -18,13 +18,11 @@ Bhook proposed a new interactive way to create a book or other content creation 
 
 ---
 
-## Contracts address(es) & website URLs
-
 ## Vercel deployment
 
 https://ethdam-2024.vercel.app/
 
-##Contracts addresses deployed on Oasis
+## Contracts addresses deployed on Oasis
 
 "Book": "0xefe86329296Bf2f2fB3C4fF5545Dca8736fB2e71"
 
