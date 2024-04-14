@@ -11,6 +11,7 @@ import { useState} from "react";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {Header} from "@/components/header";
+import {BookCover} from "@/components/book-cover";
 
 export default function Home() {
   const { bookId } = useParams<{ bookId: string }>();
@@ -105,19 +106,20 @@ export default function Home() {
             </h1>
 
             <div className="mx-auto max-w-7xl px-6 pb-24 sm:pb-40 lg:flex lg:px-8 lg:gap-10 xl:gap-32">
-              <div className="mx-auto w-1/2 gap-8 grid items-start grid-cols-1 mt-16 flex max-w-2xl sm:mt-24  lg:ml-0 lg:mt-0 lg:max-w-none lg:flex-none">
-                <figure className="relative aspect-[2/3]">
-                  <Image
-                    className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
-                    src="https://images.unsplash.com/photo-1592496431122-2349e0fbc666?q=80&w=4212&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt=""
-                    width={512}
-                    height={1024}
-                  />
-                </figure>
+              <div className="mx-auto w-1/3 gap-8 grid items-start grid-cols-1 mt-16 flex max-w-2xl sm:mt-24  lg:ml-0 lg:mt-0 lg:max-w-none lg:flex-none">
+                <BookCover book={book} />
+                {/*<figure className="relative aspect-[2/3]">*/}
+                {/*  <Image*/}
+                {/*    className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"*/}
+                {/*    src="https://images.unsplash.com/photo-1592496431122-2349e0fbc666?q=80&w=4212&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"*/}
+                {/*    alt=""*/}
+                {/*    width={512}*/}
+                {/*    height={1024}*/}
+                {/*  />*/}
+                {/*</figure>*/}
               </div>
 
-              <div className="mx-auto w-1/2 max-w-2xl flex-shrink-0 flex flex-col gap-8 items-start lg:mx-0 lg:max-w-xl lg:pt-8">
+              <div className="mx-auto w-2/3 max-w-2xl flex-shrink-0 flex flex-col gap-8 items-start lg:mx-0 lg:max-w-xl lg:pt-8">
                 <p className="mt-6 text-lg leading-8 text-primary/50">
                   {book.description}
                 </p>

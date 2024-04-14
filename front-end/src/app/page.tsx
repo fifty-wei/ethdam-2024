@@ -180,7 +180,7 @@ export default function Home() {
                 Create new book
               </Link>
               <Link
-                href="#"
+                href="/library"
                 className="text-sm font-semibold leading-6 text-white"
               >
                 View the library <span aria-hidden="true">→</span>
