@@ -67,12 +67,12 @@ export default function Home() {
   }
 
   function handleNewChapter(chapter){
-    const newChapter = {
-      ...chapter,
-      id: newChapters.length > 0 ? newChapters[newChapters.length - 1].id + BigInt(1) : chapters[chapters.length - 1].id + BigInt(1),
-      bookId: bookId
-    }
-    setNewChapters([...chapters, newChapter])
+    // const newChapter = {
+    //   ...chapter,
+    //   id: newChapters.length > 0 ? newChapters[newChapters.length - 1].id + BigInt(1) : chapters[chapters.length - 1].id + BigInt(1),
+    //   bookId: bookId
+    // }
+    // setNewChapters([...chapters, newChapter])
   }
 
   return (
