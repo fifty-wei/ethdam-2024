@@ -1,10 +1,10 @@
-# PROJECT NAME
+# B-HOOK
 
-B-HOOK
+> Where your creation come to life, chapter by chapter, with community feedback and innovative NFT-backed privacy
 
 ---
 
-## DESCRIPTION OF THE PROJECT
+## DESCRIPTION
 
 🚀 Welcome to #B-hook: Your Gateway to Creative Expression! 📚✨
 
